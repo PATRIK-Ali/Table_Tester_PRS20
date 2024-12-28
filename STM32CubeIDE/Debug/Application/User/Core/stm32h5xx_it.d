@@ -1,5 +1,5 @@
 Application/User/Core/stm32h5xx_it.o: \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/Core/Src/stm32h5xx_it.c \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/stm32h5xx_it.c \
  ../../Core/Inc/main.h \
  ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_dma.h \
  ../../Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h \
@@ -22,14 +22,14 @@ Application/User/Core/stm32h5xx_it.o: \
  ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_spi.h \
  ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h \
  ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_gpio.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/xpt2046.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/gui.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/RS485.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/delay.h \
- C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/xpt2046.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/gui.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/RS485.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/delay.h \
+ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h \
  ../../Core/Inc/stm32h5xx_it.h \
  ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
  ../../Core/Inc/FreeRTOSConfig.h \
@@ -63,14 +63,14 @@ Application/User/Core/stm32h5xx_it.o: \
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_spi.h:
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_gpio.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/xpt2046.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/gui.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/RS485.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/delay.h:
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/xpt2046.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/lcd.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/gui.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/RS485.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/delay.h:
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/STM32CubeIDE/Drivers/Device_Driver/sys.h:
 ../../Core/Inc/stm32h5xx_it.h:
 ../../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
 ../../Core/Inc/FreeRTOSConfig.h:

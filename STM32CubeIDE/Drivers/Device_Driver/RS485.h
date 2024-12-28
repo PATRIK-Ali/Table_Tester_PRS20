@@ -51,7 +51,17 @@
 #define Line6_UART			USART11
 #define Line7_UART			UART7
 
-#define BUF_Size				512
+#define BUF_Size			512
+
+#define Line1_BUF_Index		0
+#define Line2_BUF_Index		100
+#define Line3_BUF_Index		200
+#define Line4_BUF_Index		300
+#define Line5_BUF_Index		400
+#define Line6_BUF_Index		500
+#define Line7_BUF_Index		600
+
+#define Line_BUF_Size		100
 
 typedef enum
 {

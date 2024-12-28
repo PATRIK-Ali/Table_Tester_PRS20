@@ -5,6 +5,6 @@
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:1370:22:LL_LPUART_SetBaudRate	2
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_bus.h:2643:22:LL_APB3_GRP1_ForceReset	1
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_bus.h:2677:22:LL_APB3_GRP1_ReleaseReset	1
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_lpuart.c:132:13:LL_LPUART_DeInit	2
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_lpuart.c:170:13:LL_LPUART_Init	4
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/CubeMX/Table_Tester_PRS20/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_lpuart.c:255:6:LL_LPUART_StructInit	1
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_lpuart.c:132:13:LL_LPUART_DeInit	2
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_lpuart.c:170:13:LL_LPUART_Init	4
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_lpuart.c:255:6:LL_LPUART_StructInit	1

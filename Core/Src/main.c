@@ -44,7 +44,7 @@
 
 /* USER CODE BEGIN PV */
 uint16_t General_Buffer[76800];
-uint8_t RX_Buffer[100];
+uint8_t RX_Buffer[1000];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -272,6 +272,7 @@ static void MX_LPUART1_UART_Init(void)
 {
 
   /* USER CODE BEGIN LPUART1_Init 0 */
+	LL_DMA_InitTypeDef DMA_InitStruct = {0};
 
   /* USER CODE END LPUART1_Init 0 */
 
@@ -298,6 +299,37 @@ static void MX_LPUART1_UART_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN LPUART1_Init 1 */
+	DMA_InitStruct.SrcAddress = LL_LPUART_DMA_GetRegAddr(LPUART1, LL_LPUART_DMA_REG_DATA_RECEIVE);
+	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line5_BUF_Index];
+	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
+	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
+	DMA_InitStruct.SrcBurstLength = 1;
+	DMA_InitStruct.DestBurstLength = 1;
+	DMA_InitStruct.SrcDataWidth = LL_DMA_SRC_DATAWIDTH_BYTE;
+	DMA_InitStruct.DestDataWidth = LL_DMA_DEST_DATAWIDTH_BYTE;
+	DMA_InitStruct.SrcIncMode = LL_DMA_SRC_FIXED;
+	DMA_InitStruct.DestIncMode = LL_DMA_DEST_INCREMENT;
+	DMA_InitStruct.Priority = LL_DMA_LOW_PRIORITY_HIGH_WEIGHT;
+	DMA_InitStruct.BlkDataLength = Line_BUF_Size; //sizeof(RX_Buffer);//0x00000000U;
+	DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.TriggerMode = LL_DMA_TRIGM_SINGLBURST_TRANSFER;//LL_DMA_TRIGM_BLK_TRANSFER;
+	DMA_InitStruct.TriggerPolarity = LL_DMA_TRIG_POLARITY_MASKED;//LL_DMA_TRIG_POLARITY_RISING;
+	DMA_InitStruct.TriggerSelection = 0x00000000U;//LL_GPDMA1_TRIGGER_GPDMA1_CH0_TCF;
+	DMA_InitStruct.Request = LL_GPDMA1_REQUEST_LPUART1_RX;
+	DMA_InitStruct.TransferEventMode = LL_DMA_TCEM_BLK_TRANSFER;
+	//  DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.SrcAllocatedPort = LL_DMA_SRC_ALLOCATED_PORT0;
+	DMA_InitStruct.DestAllocatedPort = LL_DMA_DEST_ALLOCATED_PORT0;
+	DMA_InitStruct.LinkAllocatedPort = LL_DMA_LINK_ALLOCATED_PORT1;
+	DMA_InitStruct.LinkStepMode = LL_DMA_LSM_FULL_EXECUTION;
+	DMA_InitStruct.LinkedListBaseAddr = 0x00000000U;
+	DMA_InitStruct.LinkedListAddrOffset = 0x00000000U;
+	LL_DMA_Init(GPDMA1, LL_DMA_CHANNEL_4, &DMA_InitStruct);
+
+	LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_4);
+
+	LL_DMA_EnableChannel(GPDMA1, LL_DMA_CHANNEL_4);
 
   /* USER CODE END LPUART1_Init 1 */
   LPUART_InitStruct.PrescalerValue = LL_LPUART_PRESCALER_DIV8;
@@ -312,6 +344,7 @@ static void MX_LPUART1_UART_Init(void)
   LL_LPUART_SetRXFIFOThreshold(LPUART1, LL_LPUART_FIFOTHRESHOLD_1_8);
   LL_LPUART_DisableFIFO(LPUART1);
   LL_LPUART_DisableOverrunDetect(LPUART1);
+  LL_LPUART_EnableDMAReq_RX(LPUART1);
 
   /* USER CODE BEGIN WKUPType LPUART1 */
 
@@ -333,6 +366,7 @@ static void MX_UART4_Init(void)
 {
 
   /* USER CODE BEGIN UART4_Init 0 */
+	LL_DMA_InitTypeDef DMA_InitStruct = {0};
 
   /* USER CODE END UART4_Init 0 */
 
@@ -359,6 +393,37 @@ static void MX_UART4_Init(void)
   LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* USER CODE BEGIN UART4_Init 1 */
+	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART4, LL_USART_DMA_REG_DATA_RECEIVE);
+	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line3_BUF_Index];
+	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;;//LL_DMA_HWREQUEST_BLK
+	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
+	DMA_InitStruct.SrcBurstLength = 1;
+	DMA_InitStruct.DestBurstLength = 1;
+	DMA_InitStruct.SrcDataWidth = LL_DMA_SRC_DATAWIDTH_BYTE;
+	DMA_InitStruct.DestDataWidth = LL_DMA_DEST_DATAWIDTH_BYTE;
+	DMA_InitStruct.SrcIncMode = LL_DMA_SRC_FIXED;
+	DMA_InitStruct.DestIncMode = LL_DMA_DEST_INCREMENT;
+	DMA_InitStruct.Priority = LL_DMA_LOW_PRIORITY_HIGH_WEIGHT;
+	DMA_InitStruct.BlkDataLength = Line_BUF_Size; //sizeof(RX_Buffer);//0x00000000U;
+	DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.TriggerMode = LL_DMA_TRIGM_SINGLBURST_TRANSFER;//LL_DMA_TRIGM_BLK_TRANSFER;
+	DMA_InitStruct.TriggerPolarity = LL_DMA_TRIG_POLARITY_MASKED;//LL_DMA_TRIG_POLARITY_RISING;
+	DMA_InitStruct.TriggerSelection = 0x00000000U;//LL_GPDMA1_TRIGGER_GPDMA1_CH0_TCF;
+	DMA_InitStruct.Request = LL_GPDMA1_REQUEST_UART4_RX;
+	DMA_InitStruct.TransferEventMode = LL_DMA_TCEM_BLK_TRANSFER;
+	//  DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.SrcAllocatedPort = LL_DMA_SRC_ALLOCATED_PORT0;
+	DMA_InitStruct.DestAllocatedPort = LL_DMA_DEST_ALLOCATED_PORT0;
+	DMA_InitStruct.LinkAllocatedPort = LL_DMA_LINK_ALLOCATED_PORT1;
+	DMA_InitStruct.LinkStepMode = LL_DMA_LSM_FULL_EXECUTION;
+	DMA_InitStruct.LinkedListBaseAddr = 0x00000000U;
+	DMA_InitStruct.LinkedListAddrOffset = 0x00000000U;
+	LL_DMA_Init(GPDMA1, LL_DMA_CHANNEL_2, &DMA_InitStruct);
+
+	//LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_2);
+
+	LL_DMA_EnableChannel(GPDMA1, LL_DMA_CHANNEL_2);
 
   /* USER CODE END UART4_Init 1 */
   UART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
@@ -375,6 +440,7 @@ static void MX_UART4_Init(void)
   LL_USART_DisableFIFO(UART4);
   LL_USART_DisableOverrunDetect(UART4);
   LL_USART_ConfigAsyncMode(UART4);
+  LL_USART_EnableDMAReq_RX(UART4);
   LL_USART_Enable(UART4);
   /* USER CODE BEGIN UART4_Init 2 */
 
@@ -391,6 +457,7 @@ static void MX_UART5_Init(void)
 {
 
   /* USER CODE BEGIN UART5_Init 0 */
+	LL_DMA_InitTypeDef DMA_InitStruct = {0};
 
   /* USER CODE END UART5_Init 0 */
 
@@ -417,6 +484,37 @@ static void MX_UART5_Init(void)
   LL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* USER CODE BEGIN UART5_Init 1 */
+	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART5, LL_USART_DMA_REG_DATA_RECEIVE);
+	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line2_BUF_Index];
+	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
+	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
+	DMA_InitStruct.SrcBurstLength = 1;
+	DMA_InitStruct.DestBurstLength = 1;
+	DMA_InitStruct.SrcDataWidth = LL_DMA_SRC_DATAWIDTH_BYTE;
+	DMA_InitStruct.DestDataWidth = LL_DMA_DEST_DATAWIDTH_BYTE;
+	DMA_InitStruct.SrcIncMode = LL_DMA_SRC_FIXED;
+	DMA_InitStruct.DestIncMode = LL_DMA_DEST_INCREMENT;
+	DMA_InitStruct.Priority = LL_DMA_LOW_PRIORITY_HIGH_WEIGHT;
+	DMA_InitStruct.BlkDataLength = Line_BUF_Size; //sizeof(RX_Buffer);//0x00000000U;
+	DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.TriggerMode = LL_DMA_TRIGM_SINGLBURST_TRANSFER;//LL_DMA_TRIGM_BLK_TRANSFER;
+	DMA_InitStruct.TriggerPolarity = LL_DMA_TRIG_POLARITY_MASKED;//LL_DMA_TRIG_POLARITY_RISING;
+	DMA_InitStruct.TriggerSelection = 0x00000000U;//LL_GPDMA1_TRIGGER_GPDMA1_CH0_TCF;
+	DMA_InitStruct.Request = LL_GPDMA1_REQUEST_UART5_RX;
+	DMA_InitStruct.TransferEventMode = LL_DMA_TCEM_BLK_TRANSFER;
+	//  DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.SrcAllocatedPort = LL_DMA_SRC_ALLOCATED_PORT0;
+	DMA_InitStruct.DestAllocatedPort = LL_DMA_DEST_ALLOCATED_PORT0;
+	DMA_InitStruct.LinkAllocatedPort = LL_DMA_LINK_ALLOCATED_PORT1;
+	DMA_InitStruct.LinkStepMode = LL_DMA_LSM_FULL_EXECUTION;
+	DMA_InitStruct.LinkedListBaseAddr = 0x00000000U;
+	DMA_InitStruct.LinkedListAddrOffset = 0x00000000U;
+	LL_DMA_Init(GPDMA1, LL_DMA_CHANNEL_1, &DMA_InitStruct);
+
+	LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_1);
+
+	LL_DMA_EnableChannel(GPDMA1, LL_DMA_CHANNEL_1);
 
   /* USER CODE END UART5_Init 1 */
   UART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
@@ -433,6 +531,7 @@ static void MX_UART5_Init(void)
   LL_USART_DisableFIFO(UART5);
   LL_USART_DisableOverrunDetect(UART5);
   LL_USART_ConfigAsyncMode(UART5);
+  LL_USART_EnableDMAReq_RX(UART5);
   LL_USART_Enable(UART5);
   /* USER CODE BEGIN UART5_Init 2 */
 
@@ -449,6 +548,7 @@ static void MX_UART7_Init(void)
 {
 
   /* USER CODE BEGIN UART7_Init 0 */
+	LL_DMA_InitTypeDef DMA_InitStruct = {0};
 
   /* USER CODE END UART7_Init 0 */
 
@@ -475,6 +575,37 @@ static void MX_UART7_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN UART7_Init 1 */
+	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART7, LL_USART_DMA_REG_DATA_RECEIVE);
+	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line7_BUF_Index];
+	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
+	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
+	DMA_InitStruct.SrcBurstLength = 1;
+	DMA_InitStruct.DestBurstLength = 1;
+	DMA_InitStruct.SrcDataWidth = LL_DMA_SRC_DATAWIDTH_BYTE;
+	DMA_InitStruct.DestDataWidth = LL_DMA_DEST_DATAWIDTH_BYTE;
+	DMA_InitStruct.SrcIncMode = LL_DMA_SRC_FIXED;
+	DMA_InitStruct.DestIncMode = LL_DMA_DEST_INCREMENT;
+	DMA_InitStruct.Priority = LL_DMA_LOW_PRIORITY_HIGH_WEIGHT;
+	DMA_InitStruct.BlkDataLength = Line_BUF_Size; //sizeof(RX_Buffer);//0x00000000U;
+	DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.TriggerMode = LL_DMA_TRIGM_SINGLBURST_TRANSFER;//LL_DMA_TRIGM_BLK_TRANSFER;
+	DMA_InitStruct.TriggerPolarity = LL_DMA_TRIG_POLARITY_MASKED;//LL_DMA_TRIG_POLARITY_RISING;
+	DMA_InitStruct.TriggerSelection = 0x00000000U;//LL_GPDMA1_TRIGGER_GPDMA1_CH0_TCF;
+	DMA_InitStruct.Request = LL_GPDMA1_REQUEST_UART7_RX;
+	DMA_InitStruct.TransferEventMode = LL_DMA_TCEM_BLK_TRANSFER;
+	//  DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.SrcAllocatedPort = LL_DMA_SRC_ALLOCATED_PORT0;
+	DMA_InitStruct.DestAllocatedPort = LL_DMA_DEST_ALLOCATED_PORT0;
+	DMA_InitStruct.LinkAllocatedPort = LL_DMA_LINK_ALLOCATED_PORT1;
+	DMA_InitStruct.LinkStepMode = LL_DMA_LSM_FULL_EXECUTION;
+	DMA_InitStruct.LinkedListBaseAddr = 0x00000000U;
+	DMA_InitStruct.LinkedListAddrOffset = 0x00000000U;
+	LL_DMA_Init(GPDMA1, LL_DMA_CHANNEL_6, &DMA_InitStruct);
+
+	LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_6);
+
+	LL_DMA_EnableChannel(GPDMA1, LL_DMA_CHANNEL_6);
 
   /* USER CODE END UART7_Init 1 */
   UART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
@@ -491,6 +622,7 @@ static void MX_UART7_Init(void)
   LL_USART_DisableFIFO(UART7);
   LL_USART_DisableOverrunDetect(UART7);
   LL_USART_ConfigAsyncMode(UART7);
+  LL_USART_EnableDMAReq_RX(UART7);
   LL_USART_Enable(UART7);
   /* USER CODE BEGIN UART7_Init 2 */
 
@@ -535,9 +667,9 @@ static void MX_USART3_UART_Init(void)
 
   /* USER CODE BEGIN USART3_Init 1 */
   DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART3, LL_USART_DMA_REG_DATA_RECEIVE);
-  DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[0];
+  DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line1_BUF_Index];
   DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
-  DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_BLK;//LL_DMA_HWREQUEST_SINGLEBURST;
+  DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
   DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
   DMA_InitStruct.SrcBurstLength = 1;
   DMA_InitStruct.DestBurstLength = 1;
@@ -546,8 +678,8 @@ static void MX_USART3_UART_Init(void)
   DMA_InitStruct.SrcIncMode = LL_DMA_SRC_FIXED;
   DMA_InitStruct.DestIncMode = LL_DMA_DEST_INCREMENT;
   DMA_InitStruct.Priority = LL_DMA_LOW_PRIORITY_HIGH_WEIGHT;
-  DMA_InitStruct.BlkDataLength = sizeof(RX_Buffer);//0x00000000U;
-  DMA_InitStruct.Mode = LL_DMA_PFCTRL;
+  DMA_InitStruct.BlkDataLength = Line_BUF_Size; //sizeof(RX_Buffer);//0x00000000U;
+  DMA_InitStruct.Mode = LL_DMA_NORMAL;
   DMA_InitStruct.TriggerMode = LL_DMA_TRIGM_SINGLBURST_TRANSFER;//LL_DMA_TRIGM_BLK_TRANSFER;
   DMA_InitStruct.TriggerPolarity = LL_DMA_TRIG_POLARITY_MASKED;//LL_DMA_TRIG_POLARITY_RISING;
   DMA_InitStruct.TriggerSelection = 0x00000000U;//LL_GPDMA1_TRIGGER_GPDMA1_CH0_TCF;
@@ -598,6 +730,7 @@ static void MX_USART6_UART_Init(void)
 {
 
   /* USER CODE BEGIN USART6_Init 0 */
+	LL_DMA_InitTypeDef DMA_InitStruct = {0};
 
   /* USER CODE END USART6_Init 0 */
 
@@ -624,6 +757,37 @@ static void MX_USART6_UART_Init(void)
   LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* USER CODE BEGIN USART6_Init 1 */
+	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART6, LL_USART_DMA_REG_DATA_RECEIVE);
+	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line4_BUF_Index];
+	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
+	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
+	DMA_InitStruct.SrcBurstLength = 1;
+	DMA_InitStruct.DestBurstLength = 1;
+	DMA_InitStruct.SrcDataWidth = LL_DMA_SRC_DATAWIDTH_BYTE;
+	DMA_InitStruct.DestDataWidth = LL_DMA_DEST_DATAWIDTH_BYTE;
+	DMA_InitStruct.SrcIncMode = LL_DMA_SRC_FIXED;
+	DMA_InitStruct.DestIncMode = LL_DMA_DEST_INCREMENT;
+	DMA_InitStruct.Priority = LL_DMA_LOW_PRIORITY_HIGH_WEIGHT;
+	DMA_InitStruct.BlkDataLength = Line_BUF_Size; //sizeof(RX_Buffer);//0x00000000U;
+	DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.TriggerMode = LL_DMA_TRIGM_SINGLBURST_TRANSFER;//LL_DMA_TRIGM_BLK_TRANSFER;
+	DMA_InitStruct.TriggerPolarity = LL_DMA_TRIG_POLARITY_MASKED;//LL_DMA_TRIG_POLARITY_RISING;
+	DMA_InitStruct.TriggerSelection = 0x00000000U;//LL_GPDMA1_TRIGGER_GPDMA1_CH0_TCF;
+	DMA_InitStruct.Request = LL_GPDMA1_REQUEST_USART6_RX;
+	DMA_InitStruct.TransferEventMode = LL_DMA_TCEM_BLK_TRANSFER;
+	//  DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.SrcAllocatedPort = LL_DMA_SRC_ALLOCATED_PORT0;
+	DMA_InitStruct.DestAllocatedPort = LL_DMA_DEST_ALLOCATED_PORT0;
+	DMA_InitStruct.LinkAllocatedPort = LL_DMA_LINK_ALLOCATED_PORT1;
+	DMA_InitStruct.LinkStepMode = LL_DMA_LSM_FULL_EXECUTION;
+	DMA_InitStruct.LinkedListBaseAddr = 0x00000000U;
+	DMA_InitStruct.LinkedListAddrOffset = 0x00000000U;
+	LL_DMA_Init(GPDMA1, LL_DMA_CHANNEL_3, &DMA_InitStruct);
+
+	LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_3);
+
+	LL_DMA_EnableChannel(GPDMA1, LL_DMA_CHANNEL_3);
 
   /* USER CODE END USART6_Init 1 */
   USART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
@@ -640,6 +804,7 @@ static void MX_USART6_UART_Init(void)
   LL_USART_DisableFIFO(USART6);
   LL_USART_DisableOverrunDetect(USART6);
   LL_USART_ConfigAsyncMode(USART6);
+  LL_USART_EnableDMAReq_RX(USART6);
   LL_USART_Enable(USART6);
   /* USER CODE BEGIN USART6_Init 2 */
 
@@ -656,6 +821,7 @@ static void MX_USART11_UART_Init(void)
 {
 
   /* USER CODE BEGIN USART11_Init 0 */
+	LL_DMA_InitTypeDef DMA_InitStruct = {0};
 
   /* USER CODE END USART11_Init 0 */
 
@@ -682,6 +848,37 @@ static void MX_USART11_UART_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN USART11_Init 1 */
+	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART11, LL_USART_DMA_REG_DATA_RECEIVE);
+	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line6_BUF_Index];
+	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
+	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
+	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
+	DMA_InitStruct.SrcBurstLength = 1;
+	DMA_InitStruct.DestBurstLength = 1;
+	DMA_InitStruct.SrcDataWidth = LL_DMA_SRC_DATAWIDTH_BYTE;
+	DMA_InitStruct.DestDataWidth = LL_DMA_DEST_DATAWIDTH_BYTE;
+	DMA_InitStruct.SrcIncMode = LL_DMA_SRC_FIXED;
+	DMA_InitStruct.DestIncMode = LL_DMA_DEST_INCREMENT;
+	DMA_InitStruct.Priority = LL_DMA_LOW_PRIORITY_HIGH_WEIGHT;
+	DMA_InitStruct.BlkDataLength = Line_BUF_Size; //sizeof(RX_Buffer);//0x00000000U;
+	DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.TriggerMode = LL_DMA_TRIGM_SINGLBURST_TRANSFER;//LL_DMA_TRIGM_BLK_TRANSFER;
+	DMA_InitStruct.TriggerPolarity = LL_DMA_TRIG_POLARITY_MASKED;//LL_DMA_TRIG_POLARITY_RISING;
+	DMA_InitStruct.TriggerSelection = 0x00000000U;//LL_GPDMA1_TRIGGER_GPDMA1_CH0_TCF;
+	DMA_InitStruct.Request = LL_GPDMA1_REQUEST_USART11_RX;
+	DMA_InitStruct.TransferEventMode = LL_DMA_TCEM_BLK_TRANSFER;
+	//  DMA_InitStruct.Mode = LL_DMA_NORMAL;
+	DMA_InitStruct.SrcAllocatedPort = LL_DMA_SRC_ALLOCATED_PORT0;
+	DMA_InitStruct.DestAllocatedPort = LL_DMA_DEST_ALLOCATED_PORT0;
+	DMA_InitStruct.LinkAllocatedPort = LL_DMA_LINK_ALLOCATED_PORT1;
+	DMA_InitStruct.LinkStepMode = LL_DMA_LSM_FULL_EXECUTION;
+	DMA_InitStruct.LinkedListBaseAddr = 0x00000000U;
+	DMA_InitStruct.LinkedListAddrOffset = 0x00000000U;
+	LL_DMA_Init(GPDMA1, LL_DMA_CHANNEL_5, &DMA_InitStruct);
+
+	LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_5);
+
+	LL_DMA_EnableChannel(GPDMA1, LL_DMA_CHANNEL_5);
 
   /* USER CODE END USART11_Init 1 */
   USART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
@@ -698,6 +895,7 @@ static void MX_USART11_UART_Init(void)
   LL_USART_DisableFIFO(USART11);
   LL_USART_DisableOverrunDetect(USART11);
   LL_USART_ConfigAsyncMode(USART11);
+  LL_USART_EnableDMAReq_RX(USART11);
   LL_USART_Enable(USART11);
   /* USER CODE BEGIN USART11_Init 2 */
 

@@ -64,8 +64,8 @@ all: main-build
 main-build: Table_Tester_PRS20.elf secondary-outputs
 
 # Tool invocations
-Table_Tester_PRS20.elf Table_Tester_PRS20.map: $(OBJS) $(USER_OBJS) C:\Users\IRIAF-Jahad\Desktop\Table_Tester\CubeMX\Table_Tester_PRS20\STM32CubeIDE\STM32H573RIVX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Table_Tester_PRS20.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\IRIAF-Jahad\Desktop\Table_Tester\CubeMX\Table_Tester_PRS20\STM32CubeIDE\STM32H573RIVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Table_Tester_PRS20.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Table_Tester_PRS20.elf Table_Tester_PRS20.map: $(OBJS) $(USER_OBJS) C:\Users\IRIAF-Jahad\Desktop\Table_Tester\Table_Tester_PRS20\STM32CubeIDE\STM32H573RIVX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Table_Tester_PRS20.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\IRIAF-Jahad\Desktop\Table_Tester\Table_Tester_PRS20\STM32CubeIDE\STM32H573RIVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Table_Tester_PRS20.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

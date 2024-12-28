@@ -55,7 +55,7 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern uint16_t General_Buffer[76800];
-extern uint8_t RX_Buffer[100];
+extern uint8_t RX_Buffer[1000];
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
