@@ -1,0 +1,4 @@
+../Drivers/Device_Driver/delay.c:150:6:delay_init	16	static
+../Drivers/Device_Driver/delay.c:214:6:delay_us	16	static
+../Drivers/Device_Driver/delay.c:236:6:delay_ms	16	static
+../Drivers/Device_Driver/delay.c:243:6:delay_m	24	static

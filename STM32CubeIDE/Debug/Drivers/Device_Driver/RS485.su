@@ -1,0 +1,16 @@
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_gpio.h:894:22:LL_GPIO_SetOutputPin	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_gpio.h:923:22:LL_GPIO_ResetOutputPin	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:3009:26:LL_USART_IsActiveFlag_TC	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:3024:26:LL_USART_IsActiveFlag_TXE_TXFNF	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:3347:22:LL_USART_ClearFlag_TC	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:4252:25:LL_USART_ReceiveData8	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:4275:22:LL_USART_TransmitData8	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:1659:26:LL_LPUART_IsActiveFlag_TC	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:1672:26:LL_LPUART_IsActiveFlag_TXE_TXFNF	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:1881:22:LL_LPUART_ClearFlag_TC	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:2525:25:LL_LPUART_ReceiveData8	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:2548:22:LL_LPUART_TransmitData8	16	static
+../Drivers/Device_Driver/RS485.c:40:6:RS485_Init	4	static
+../Drivers/Device_Driver/RS485.c:157:6:RS485_Set_Line_Driver_Receiver	16	static
+../Drivers/Device_Driver/RS485.c:400:6:RS485_Tx	352	static,ignoring_inline_asm
+../Drivers/Device_Driver/RS485.c:628:6:RS485_Rx	344	static
