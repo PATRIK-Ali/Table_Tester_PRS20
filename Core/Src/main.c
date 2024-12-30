@@ -255,6 +255,23 @@ static void MX_GPDMA1_Init(void)
   NVIC_EnableIRQ(GPDMA1_Channel0_IRQn);
 
   /* USER CODE BEGIN GPDMA1_Init 1 */
+	NVIC_SetPriority(GPDMA1_Channel1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+	NVIC_EnableIRQ(GPDMA1_Channel1_IRQn);
+
+	NVIC_SetPriority(GPDMA1_Channel2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+	NVIC_EnableIRQ(GPDMA1_Channel2_IRQn);
+
+	NVIC_SetPriority(GPDMA1_Channel3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+	NVIC_EnableIRQ(GPDMA1_Channel3_IRQn);
+
+	NVIC_SetPriority(GPDMA1_Channel4_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+	NVIC_EnableIRQ(GPDMA1_Channel4_IRQn);
+
+	NVIC_SetPriority(GPDMA1_Channel5_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+	NVIC_EnableIRQ(GPDMA1_Channel5_IRQn);
+
+	NVIC_SetPriority(GPDMA1_Channel6_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+	NVIC_EnableIRQ(GPDMA1_Channel6_IRQn);
 
   /* USER CODE END GPDMA1_Init 1 */
   /* USER CODE BEGIN GPDMA1_Init 2 */
@@ -421,7 +438,7 @@ static void MX_UART4_Init(void)
 	DMA_InitStruct.LinkedListAddrOffset = 0x00000000U;
 	LL_DMA_Init(GPDMA1, LL_DMA_CHANNEL_2, &DMA_InitStruct);
 
-	//LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_2);
+	LL_DMA_EnableIT_TC(GPDMA1, LL_DMA_CHANNEL_2);
 
 	LL_DMA_EnableChannel(GPDMA1, LL_DMA_CHANNEL_2);
 

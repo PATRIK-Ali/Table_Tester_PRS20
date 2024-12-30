@@ -51,6 +51,22 @@
 #define Line6_UART			USART11
 #define Line7_UART			UART7
 
+#define Line1_DMA			GPDMA1
+#define Line2_DMA			GPDMA1
+#define Line3_DMA			GPDMA1
+#define Line4_DMA			GPDMA1
+#define Line5_DMA			GPDMA1
+#define Line6_DMA			GPDMA1
+#define Line7_DMA			GPDMA1
+
+#define Line1_DMA_CH		LL_DMA_CHANNEL_0
+#define Line2_DMA_CH		LL_DMA_CHANNEL_1
+#define Line3_DMA_CH		LL_DMA_CHANNEL_2
+#define Line4_DMA_CH		LL_DMA_CHANNEL_3
+#define Line5_DMA_CH		LL_DMA_CHANNEL_4
+#define Line6_DMA_CH		LL_DMA_CHANNEL_5
+#define Line7_DMA_CH		LL_DMA_CHANNEL_6
+
 #define BUF_Size			512
 
 #define Line1_BUF_Index		0
