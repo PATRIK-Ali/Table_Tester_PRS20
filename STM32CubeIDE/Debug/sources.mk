@@ -24,6 +24,7 @@ C_DEPS :=
 SUBDIRS := \
 Application/User/Core \
 Application/User/Startup \
+Application/User/Table_Tester \
 Drivers/CMSIS \
 Drivers/Device_Driver \
 Drivers/STM32H5xx_HAL_Driver \

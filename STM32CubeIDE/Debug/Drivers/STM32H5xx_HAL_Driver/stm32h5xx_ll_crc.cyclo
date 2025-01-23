@@ -1,0 +1,3 @@
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_bus.h:675:22:LL_AHB1_GRP1_ForceReset	1
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_bus.h:704:22:LL_AHB1_GRP1_ReleaseReset	1
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_crc.c:62:13:LL_CRC_DeInit	2

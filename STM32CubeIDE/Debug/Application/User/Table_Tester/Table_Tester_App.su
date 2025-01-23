@@ -1,0 +1,4 @@
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_crc.h:156:22:LL_CRC_ResetCRCCalculationUnit	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_crc.h:351:22:LL_CRC_FeedData8	16	static
+../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_crc.h:374:26:LL_CRC_ReadData16	16	static
+../Application/User/Table_Tester/Table_Tester_App.c:84:6:Message_Maker	40	static

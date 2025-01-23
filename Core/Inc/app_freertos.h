@@ -65,6 +65,9 @@ extern osMessageQueueId_t myQueue01Handle;
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void *argument);
+void Lines_Sequence_Task(void *argument);
+void RX_Task(void *argument);
+void LCD_Touch_Task(void *argument);
 void Callback01(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */

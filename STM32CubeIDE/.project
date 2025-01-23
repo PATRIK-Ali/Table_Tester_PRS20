@@ -44,6 +44,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/Core/Src/system_stm32h5xx.c</locationURI>
 		</link>
 		<link>
+			<name>Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_crc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_crc.c</locationURI>
+		</link>
+		<link>
 			<name>Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/Drivers/STM32H5xx_HAL_Driver/Src/stm32h5xx_ll_dma.c</locationURI>

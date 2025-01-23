@@ -54,6 +54,7 @@
 **************************************************************************************************/	
 #include "delay.h"
 #include "sys.h"
+#include "cmsis_os2.h"
 ////////////////////////////////////////////////////////////////////////////////// 	 
 //���ʹ��ucos,����������ͷ�ļ�����.
 #if SYSTEM_SUPPORT_OS
@@ -251,6 +252,12 @@ void delay_m(int cnt)
 			us--;
 		}
 	}
+}
+
+void Delay_ms_OS(int D)
+{
+	//osDelay(D/portTICK_PERIOD_MS);
+	osDelay(D);
 }
 
 #endif

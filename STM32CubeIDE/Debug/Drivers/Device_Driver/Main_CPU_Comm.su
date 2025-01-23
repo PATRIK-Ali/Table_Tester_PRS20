@@ -1,0 +1,4 @@
+../Drivers/Device_Driver/Main_CPU_Comm.c:643:17:Message_Buffering	216	static,ignoring_inline_asm
+../Drivers/Device_Driver/Main_CPU_Comm.c:848:19:MainCPU_Message_Parsing	72	static
+../Drivers/Device_Driver/Main_CPU_Comm.c:902:6:MainCPU_Message_Maker	16	static
+../Drivers/Device_Driver/Main_CPU_Comm.c:926:6:MainCPU_Message_Sender	4	static

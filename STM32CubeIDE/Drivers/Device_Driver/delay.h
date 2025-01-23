@@ -60,6 +60,7 @@ void delay_init(u8 SYSCLK);
 void delay_ms(u16 nms);
 void delay_us(u32 nus);
 void delay_m(int cnt);
+void Delay_ms_OS(int D);
 
 #endif
 

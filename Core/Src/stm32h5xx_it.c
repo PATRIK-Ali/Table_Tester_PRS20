@@ -181,7 +181,7 @@ void GPDMA1_Channel0_IRQHandler(void)
 		//LL_DMA_SuspendChannel(const DMA_TypeDef *DMAx, uint32_t Channel)
 		//LL_DMA_IsSuspendedChannel(const DMA_TypeDef *DMAx, uint32_t Channel)
 		//LL_DMA_ResumeChannel(const DMA_TypeDef *DMAx, uint32_t Channel)
-		LL_DMA_SetDestAddress(Line1_DMA, Line1_DMA_CH, &RX_Buffer[Line1_BUF_Index]);
+		LL_DMA_SetDestAddress(Line1_DMA, Line1_DMA_CH, &LineX_RX_Buffer[Line1_BUF_Index]);
 		LL_DMA_SetBlkDataLength(Line1_DMA, Line1_DMA_CH, Line_BUF_Size);
 		//LL_DMA_GetBlkDataLength(const DMA_TypeDef *DMAx, uint32_t Channel)
 
@@ -207,7 +207,7 @@ void GPDMA1_Channel1_IRQHandler(void)
 	LL_DMA_ClearFlag_TC(Line2_DMA, Line2_DMA_CH);
 	LL_DMA_ClearFlag_SUSP(Line2_DMA, Line2_DMA_CH);
 
-	LL_DMA_SetDestAddress(Line2_DMA, Line2_DMA_CH, &RX_Buffer[Line2_BUF_Index]);
+	LL_DMA_SetDestAddress(Line2_DMA, Line2_DMA_CH, &LineX_RX_Buffer[Line2_BUF_Index]);
 	LL_DMA_SetBlkDataLength(Line2_DMA, Line2_DMA_CH, Line_BUF_Size);
 
 	LL_DMA_EnableIT_TC(Line2_DMA, Line2_DMA_CH);
@@ -225,7 +225,7 @@ void GPDMA1_Channel2_IRQHandler(void)
 	LL_DMA_ClearFlag_TC(Line3_DMA, Line3_DMA_CH);
 	LL_DMA_ClearFlag_SUSP(Line3_DMA, Line3_DMA_CH);
 
-	LL_DMA_SetDestAddress(Line3_DMA, Line3_DMA_CH, &RX_Buffer[Line3_BUF_Index]);
+	LL_DMA_SetDestAddress(Line3_DMA, Line3_DMA_CH, &LineX_RX_Buffer[Line3_BUF_Index]);
 	LL_DMA_SetBlkDataLength(Line3_DMA, Line3_DMA_CH, Line_BUF_Size);
 
 	LL_DMA_EnableIT_TC(Line3_DMA, Line3_DMA_CH);
@@ -243,7 +243,7 @@ void GPDMA1_Channel3_IRQHandler(void)
 	LL_DMA_ClearFlag_TC(Line4_DMA, Line4_DMA_CH);
 	LL_DMA_ClearFlag_SUSP(Line4_DMA, Line4_DMA_CH);
 
-	LL_DMA_SetDestAddress(Line4_DMA, Line4_DMA_CH, &RX_Buffer[Line4_BUF_Index]);
+	LL_DMA_SetDestAddress(Line4_DMA, Line4_DMA_CH, &LineX_RX_Buffer[Line4_BUF_Index]);
 	LL_DMA_SetBlkDataLength(Line4_DMA, Line4_DMA_CH, Line_BUF_Size);
 
 	LL_DMA_EnableIT_TC(Line4_DMA, Line4_DMA_CH);
@@ -261,7 +261,7 @@ void GPDMA1_Channel4_IRQHandler(void)
 	LL_DMA_ClearFlag_TC(Line5_DMA, Line5_DMA_CH);
 	LL_DMA_ClearFlag_SUSP(Line5_DMA, Line5_DMA_CH);
 
-	LL_DMA_SetDestAddress(Line5_DMA, Line5_DMA_CH, &RX_Buffer[Line5_BUF_Index]);
+	LL_DMA_SetDestAddress(Line5_DMA, Line5_DMA_CH, &LineX_RX_Buffer[Line5_BUF_Index]);
 	LL_DMA_SetBlkDataLength(Line5_DMA, Line5_DMA_CH, Line_BUF_Size);
 
 	LL_DMA_EnableIT_TC(Line5_DMA, Line5_DMA_CH);
@@ -279,7 +279,7 @@ void GPDMA1_Channel5_IRQHandler(void)
 	LL_DMA_ClearFlag_TC(Line6_DMA, Line6_DMA_CH);
 	LL_DMA_ClearFlag_SUSP(Line6_DMA, Line6_DMA_CH);
 
-	LL_DMA_SetDestAddress(Line6_DMA, Line6_DMA_CH, &RX_Buffer[Line6_BUF_Index]);
+	LL_DMA_SetDestAddress(Line6_DMA, Line6_DMA_CH, &LineX_RX_Buffer[Line6_BUF_Index]);
 	LL_DMA_SetBlkDataLength(Line6_DMA, Line6_DMA_CH, Line_BUF_Size);
 
 	LL_DMA_EnableIT_TC(Line6_DMA, Line6_DMA_CH);
@@ -297,7 +297,7 @@ void GPDMA1_Channel6_IRQHandler(void)
 	LL_DMA_ClearFlag_TC(Line7_DMA, Line7_DMA_CH);
 	LL_DMA_ClearFlag_SUSP(Line7_DMA, Line7_DMA_CH);
 
-	LL_DMA_SetDestAddress(Line7_DMA, Line7_DMA_CH, &RX_Buffer[Line7_BUF_Index]);
+	LL_DMA_SetDestAddress(Line7_DMA, Line7_DMA_CH, &LineX_RX_Buffer[Line7_BUF_Index]);
 	LL_DMA_SetBlkDataLength(Line7_DMA, Line7_DMA_CH, Line_BUF_Size);
 
 	LL_DMA_EnableIT_TC(Line7_DMA, Line7_DMA_CH);

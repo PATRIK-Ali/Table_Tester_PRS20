@@ -40,6 +40,7 @@ extern "C" {
 #include "stm32h5xx_ll_spi.h"
 #include "stm32h5xx_ll_usart.h"
 #include "stm32h5xx_ll_gpio.h"
+#include "stm32h5xx_ll_crc.h"
 
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
@@ -55,7 +56,14 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern uint16_t General_Buffer[76800];
-extern uint8_t RX_Buffer[1000];
+extern uint8_t LineX_RX_Buffer[1000];
+extern uint8_t Line1_RX_Buffer[100];
+extern uint8_t Line2_RX_Buffer[100];
+extern uint8_t Line3_RX_Buffer[100];
+extern uint8_t Line4_RX_Buffer[100];
+extern uint8_t Line5_RX_Buffer[100];
+extern uint8_t Line6_RX_Buffer[100];
+extern uint8_t Line7_RX_Buffer[100];
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

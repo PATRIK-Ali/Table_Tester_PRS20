@@ -44,7 +44,14 @@
 
 /* USER CODE BEGIN PV */
 uint16_t General_Buffer[76800];
-uint8_t RX_Buffer[1000];
+uint8_t LineX_RX_Buffer[1000];
+uint8_t Line1_RX_Buffer[100];
+uint8_t Line2_RX_Buffer[100];
+uint8_t Line3_RX_Buffer[100];
+uint8_t Line4_RX_Buffer[100];
+uint8_t Line5_RX_Buffer[100];
+uint8_t Line6_RX_Buffer[100];
+uint8_t Line7_RX_Buffer[100];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,6 +69,7 @@ static void MX_USART3_UART_Init(void);
 static void MX_USART6_UART_Init(void);
 static void MX_UART7_Init(void);
 static void MX_USART11_UART_Init(void);
+static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -125,6 +133,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_UART7_Init();
   MX_USART11_UART_Init();
+  MX_CRC_Init();
   /* USER CODE BEGIN 2 */
   LCD_Init();
   xpt2046_init();
@@ -317,7 +326,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE BEGIN LPUART1_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_LPUART_DMA_GetRegAddr(LPUART1, LL_LPUART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line5_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line5_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -350,7 +359,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE END LPUART1_Init 1 */
   LPUART_InitStruct.PrescalerValue = LL_LPUART_PRESCALER_DIV8;
-  LPUART_InitStruct.BaudRate = 9600;
+  LPUART_InitStruct.BaudRate = 115200;
   LPUART_InitStruct.DataWidth = LL_LPUART_DATAWIDTH_8B;
   LPUART_InitStruct.StopBits = LL_LPUART_STOPBITS_1;
   LPUART_InitStruct.Parity = LL_LPUART_PARITY_NONE;
@@ -369,6 +378,8 @@ static void MX_LPUART1_UART_Init(void)
 
   LL_LPUART_Enable(LPUART1);
   /* USER CODE BEGIN LPUART1_Init 2 */
+  NVIC_SetPriority(LPUART1_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),6, 0));
+  NVIC_EnableIRQ(LPUART1_IRQn);
 
   /* USER CODE END LPUART1_Init 2 */
 
@@ -411,7 +422,7 @@ static void MX_UART4_Init(void)
 
   /* USER CODE BEGIN UART4_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART4, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line3_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line3_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;;//LL_DMA_HWREQUEST_BLK
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -444,7 +455,7 @@ static void MX_UART4_Init(void)
 
   /* USER CODE END UART4_Init 1 */
   UART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
-  UART_InitStruct.BaudRate = 9600;
+  UART_InitStruct.BaudRate = 115200;
   UART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   UART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   UART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -460,6 +471,8 @@ static void MX_UART4_Init(void)
   LL_USART_EnableDMAReq_RX(UART4);
   LL_USART_Enable(UART4);
   /* USER CODE BEGIN UART4_Init 2 */
+  NVIC_SetPriority(UART4_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),6, 0));
+  NVIC_EnableIRQ(UART4_IRQn);
 
   /* USER CODE END UART4_Init 2 */
 
@@ -502,7 +515,7 @@ static void MX_UART5_Init(void)
 
   /* USER CODE BEGIN UART5_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART5, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line2_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line2_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -535,7 +548,7 @@ static void MX_UART5_Init(void)
 
   /* USER CODE END UART5_Init 1 */
   UART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
-  UART_InitStruct.BaudRate = 9600;
+  UART_InitStruct.BaudRate = 115200;
   UART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   UART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   UART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -551,6 +564,8 @@ static void MX_UART5_Init(void)
   LL_USART_EnableDMAReq_RX(UART5);
   LL_USART_Enable(UART5);
   /* USER CODE BEGIN UART5_Init 2 */
+  NVIC_SetPriority(UART5_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),6, 0));
+  NVIC_EnableIRQ(UART5_IRQn);
 
   /* USER CODE END UART5_Init 2 */
 
@@ -593,7 +608,7 @@ static void MX_UART7_Init(void)
 
   /* USER CODE BEGIN UART7_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART7, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line7_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line7_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -626,7 +641,7 @@ static void MX_UART7_Init(void)
 
   /* USER CODE END UART7_Init 1 */
   UART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
-  UART_InitStruct.BaudRate = 9600;
+  UART_InitStruct.BaudRate = 115200;
   UART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   UART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   UART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -642,6 +657,8 @@ static void MX_UART7_Init(void)
   LL_USART_EnableDMAReq_RX(UART7);
   LL_USART_Enable(UART7);
   /* USER CODE BEGIN UART7_Init 2 */
+  NVIC_SetPriority(UART7_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),6, 0));
+  NVIC_EnableIRQ(UART7_IRQn);
 
   /* USER CODE END UART7_Init 2 */
 
@@ -684,7 +701,7 @@ static void MX_USART3_UART_Init(void)
 
   /* USER CODE BEGIN USART3_Init 1 */
   DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART3, LL_USART_DMA_REG_DATA_RECEIVE);
-  DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line1_BUF_Index];
+  DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line1_BUF_Index];
   DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
   DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
   DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -717,7 +734,7 @@ static void MX_USART3_UART_Init(void)
 
   /* USER CODE END USART3_Init 1 */
   USART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
-  USART_InitStruct.BaudRate = 9600;
+  USART_InitStruct.BaudRate = 115200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -733,6 +750,8 @@ static void MX_USART3_UART_Init(void)
   LL_USART_EnableDMAReq_RX(USART3);
   LL_USART_Enable(USART3);
   /* USER CODE BEGIN USART3_Init 2 */
+  NVIC_SetPriority(USART3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),6, 0));
+  NVIC_EnableIRQ(USART3_IRQn);
 
   /* USER CODE END USART3_Init 2 */
 
@@ -775,7 +794,7 @@ static void MX_USART6_UART_Init(void)
 
   /* USER CODE BEGIN USART6_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART6, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line4_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line4_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -808,7 +827,7 @@ static void MX_USART6_UART_Init(void)
 
   /* USER CODE END USART6_Init 1 */
   USART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
-  USART_InitStruct.BaudRate = 9600;
+  USART_InitStruct.BaudRate = 115200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -824,6 +843,8 @@ static void MX_USART6_UART_Init(void)
   LL_USART_EnableDMAReq_RX(USART6);
   LL_USART_Enable(USART6);
   /* USER CODE BEGIN USART6_Init 2 */
+  NVIC_SetPriority(USART6_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),6, 0));
+  NVIC_EnableIRQ(USART6_IRQn);
 
   /* USER CODE END USART6_Init 2 */
 
@@ -866,7 +887,7 @@ static void MX_USART11_UART_Init(void)
 
   /* USER CODE BEGIN USART11_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART11, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&RX_Buffer[Line6_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line6_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -899,7 +920,7 @@ static void MX_USART11_UART_Init(void)
 
   /* USER CODE END USART11_Init 1 */
   USART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
-  USART_InitStruct.BaudRate = 9600;
+  USART_InitStruct.BaudRate = 115200;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -915,6 +936,8 @@ static void MX_USART11_UART_Init(void)
   LL_USART_EnableDMAReq_RX(USART11);
   LL_USART_Enable(USART11);
   /* USER CODE BEGIN USART11_Init 2 */
+  NVIC_SetPriority(USART11_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),6, 0));
+  NVIC_EnableIRQ(USART11_IRQn);
 
   /* USER CODE END USART11_Init 2 */
 
@@ -1125,6 +1148,35 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
+}
+
+/**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* Peripheral clock enable */
+  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_CRC);
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  LL_CRC_SetInputDataReverseMode(CRC, LL_CRC_INDATA_REVERSE_NONE);
+  LL_CRC_SetOutputDataReverseMode(CRC, LL_CRC_OUTDATA_REVERSE_NONE);
+  LL_CRC_SetInitialData(CRC, LL_CRC_DEFAULT_CRC_INITVALUE);
+  LL_CRC_SetPolynomialCoef(CRC, 0x1021);
+  LL_CRC_SetPolynomialSize(CRC, LL_CRC_POLYLENGTH_16B);
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
 }
 
 /* USER CODE BEGIN 4 */
