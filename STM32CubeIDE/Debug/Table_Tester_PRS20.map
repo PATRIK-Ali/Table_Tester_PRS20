@@ -242,7 +242,21 @@ Discarded input sections
                 0x00000000      0x1f8 ./Application/User/Core/app_freertos.o
  .text.Lines_Sequence_Task
                 0x00000000       0xfc ./Application/User/Core/app_freertos.o
- .text.RX_Task  0x00000000       0x4c ./Application/User/Core/app_freertos.o
+ .text.RX_Task  0x00000000       0x58 ./Application/User/Core/app_freertos.o
+ .data.Line1_Next_SOP.6
+                0x00000000        0x4 ./Application/User/Core/app_freertos.o
+ .data.Line7_Next_SOP.5
+                0x00000000        0x4 ./Application/User/Core/app_freertos.o
+ .data.Line6_Next_SOP.4
+                0x00000000        0x4 ./Application/User/Core/app_freertos.o
+ .data.Line5_Next_SOP.3
+                0x00000000        0x4 ./Application/User/Core/app_freertos.o
+ .data.Line4_Next_SOP.2
+                0x00000000        0x4 ./Application/User/Core/app_freertos.o
+ .data.Line3_Next_SOP.1
+                0x00000000        0x4 ./Application/User/Core/app_freertos.o
+ .data.Line2_Next_SOP.0
+                0x00000000        0x4 ./Application/User/Core/app_freertos.o
  .group         0x00000000        0xc ./Application/User/Core/main.o
  .group         0x00000000        0xc ./Application/User/Core/main.o
  .group         0x00000000        0xc ./Application/User/Core/main.o
@@ -310,20 +324,8 @@ Discarded input sections
                 0x00000000       0x18 ./Application/User/Core/main.o
  .rodata.USART_PRESCALER_TAB
                 0x00000000       0x30 ./Application/User/Core/main.o
- .bss.Line1_RX_Buffer
-                0x00000000       0x64 ./Application/User/Core/main.o
- .bss.Line2_RX_Buffer
-                0x00000000       0x64 ./Application/User/Core/main.o
- .bss.Line3_RX_Buffer
-                0x00000000       0x64 ./Application/User/Core/main.o
- .bss.Line4_RX_Buffer
-                0x00000000       0x64 ./Application/User/Core/main.o
- .bss.Line5_RX_Buffer
-                0x00000000       0x64 ./Application/User/Core/main.o
- .bss.Line6_RX_Buffer
-                0x00000000       0x64 ./Application/User/Core/main.o
- .bss.Line7_RX_Buffer
-                0x00000000       0x64 ./Application/User/Core/main.o
+ .bss.LineX_RX_Buffer
+                0x00000000      0x3e8 ./Application/User/Core/main.o
  .text.Error_Handler
                 0x00000000        0xc ./Application/User/Core/main.o
  .debug_macro   0x00000000      0xaf6 ./Application/User/Core/main.o
@@ -966,6 +968,7 @@ Discarded input sections
  .group         0x00000000        0xc ./Drivers/Device_Driver/Main_CPU_Comm.o
  .group         0x00000000        0xc ./Drivers/Device_Driver/Main_CPU_Comm.o
  .group         0x00000000        0xc ./Drivers/Device_Driver/Main_CPU_Comm.o
+ .group         0x00000000        0xc ./Drivers/Device_Driver/Main_CPU_Comm.o
  .text          0x00000000        0x0 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .data          0x00000000        0x0 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .bss           0x00000000        0x0 ./Drivers/Device_Driver/Main_CPU_Comm.o
@@ -973,7 +976,7 @@ Discarded input sections
                 0x00000000       0x22 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .rodata        0x00000000        0x3 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .text.Message_Buffering
-                0x00000000      0x408 ./Drivers/Device_Driver/Main_CPU_Comm.o
+                0x00000000      0x41c ./Drivers/Device_Driver/Main_CPU_Comm.o
  .text.MainCPU_Message_Parsing
                 0x00000000      0x1b4 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .text.MainCPU_Message_Maker
@@ -983,13 +986,13 @@ Discarded input sections
  .bss.Wait.1    0x00000000        0x1 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .bss.Extra_Buffer.0
                 0x00000000        0x4 ./Drivers/Device_Driver/Main_CPU_Comm.o
- .debug_info    0x00000000      0x624 ./Drivers/Device_Driver/Main_CPU_Comm.o
- .debug_abbrev  0x00000000      0x1e0 ./Drivers/Device_Driver/Main_CPU_Comm.o
+ .debug_info    0x00000000      0x622 ./Drivers/Device_Driver/Main_CPU_Comm.o
+ .debug_abbrev  0x00000000      0x1d2 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_aranges
                 0x00000000       0x38 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_rnglists
                 0x00000000       0x27 ./Drivers/Device_Driver/Main_CPU_Comm.o
- .debug_macro   0x00000000      0x233 ./Drivers/Device_Driver/Main_CPU_Comm.o
+ .debug_macro   0x00000000      0x246 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_macro   0x00000000      0xaf6 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_macro   0x00000000       0x22 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_macro   0x00000000       0x5b ./Drivers/Device_Driver/Main_CPU_Comm.o
@@ -1034,8 +1037,9 @@ Discarded input sections
  .debug_macro   0x00000000       0x1c ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_macro   0x00000000       0x16 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_macro   0x00000000      0x146 ./Drivers/Device_Driver/Main_CPU_Comm.o
- .debug_line    0x00000000      0xa31 ./Drivers/Device_Driver/Main_CPU_Comm.o
- .debug_str     0x00000000    0xe40cb ./Drivers/Device_Driver/Main_CPU_Comm.o
+ .debug_macro   0x00000000       0x22 ./Drivers/Device_Driver/Main_CPU_Comm.o
+ .debug_line    0x00000000      0xaae ./Drivers/Device_Driver/Main_CPU_Comm.o
+ .debug_str     0x00000000    0xe41bd ./Drivers/Device_Driver/Main_CPU_Comm.o
  .comment       0x00000000       0x44 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .debug_frame   0x00000000       0xc0 ./Drivers/Device_Driver/Main_CPU_Comm.o
  .ARM.attributes
@@ -5719,7 +5723,7 @@ LOAD D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .igot.plt      0x200001f4        0x0 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v8-m.main+fp/hard/crtbegin.o
                 0x200001f4                        . = ALIGN (0x4)
 
-.bss            0x200001f4    0x28910 load address 0x080118ac
+.bss            0x200001f4    0x287e4 load address 0x080118ac
                 0x200001f4                        _sbss = .
                 0x200001f4                        __bss_start__ = _sbss
  *(.bss)
@@ -5743,176 +5747,193 @@ LOAD D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .bss.General_Buffer
                 0x20000224    0x25800 ./Application/User/Core/main.o
                 0x20000224                General_Buffer
- .bss.LineX_RX_Buffer
-                0x20025a24      0x3e8 ./Application/User/Core/main.o
-                0x20025a24                LineX_RX_Buffer
+ .bss.Line1_RX_Buffer
+                0x20025a24       0x64 ./Application/User/Core/main.o
+                0x20025a24                Line1_RX_Buffer
+ .bss.Line2_RX_Buffer
+                0x20025a88       0x64 ./Application/User/Core/main.o
+                0x20025a88                Line2_RX_Buffer
+ .bss.Line3_RX_Buffer
+                0x20025aec       0x64 ./Application/User/Core/main.o
+                0x20025aec                Line3_RX_Buffer
+ .bss.Line4_RX_Buffer
+                0x20025b50       0x64 ./Application/User/Core/main.o
+                0x20025b50                Line4_RX_Buffer
+ .bss.Line5_RX_Buffer
+                0x20025bb4       0x64 ./Application/User/Core/main.o
+                0x20025bb4                Line5_RX_Buffer
+ .bss.Line6_RX_Buffer
+                0x20025c18       0x64 ./Application/User/Core/main.o
+                0x20025c18                Line6_RX_Buffer
+ .bss.Line7_RX_Buffer
+                0x20025c7c       0x64 ./Application/User/Core/main.o
+                0x20025c7c                Line7_RX_Buffer
  .bss.__sbrk_heap_end
-                0x20025e0c        0x4 ./Application/User/Core/sysmem.o
+                0x20025ce0        0x4 ./Application/User/Core/sysmem.o
  .bss.FEU_Atten_Bit0_5
-                0x20025e10        0x1 ./Application/User/Table_Tester/Table_Tester_App.o
-                0x20025e10                FEU_Atten_Bit0_5
+                0x20025ce4        0x1 ./Application/User/Table_Tester/Table_Tester_App.o
+                0x20025ce4                FEU_Atten_Bit0_5
  .bss.IJU_Atten_Bit0_5
-                0x20025e11        0x1 ./Application/User/Table_Tester/Table_Tester_App.o
-                0x20025e11                IJU_Atten_Bit0_5
+                0x20025ce5        0x1 ./Application/User/Table_Tester/Table_Tester_App.o
+                0x20025ce5                IJU_Atten_Bit0_5
  .bss.RS485_SingleEnded_Network
-                0x20025e12        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e12                RS485_SingleEnded_Network
+                0x20025ce6        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025ce6                RS485_SingleEnded_Network
  .bss.Line1_Working
-                0x20025e13        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e13                Line1_Working
+                0x20025ce7        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025ce7                Line1_Working
  .bss.Line2_Working
-                0x20025e14        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e14                Line2_Working
+                0x20025ce8        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025ce8                Line2_Working
  .bss.Line3_Working
-                0x20025e15        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e15                Line3_Working
+                0x20025ce9        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025ce9                Line3_Working
  .bss.Line4_Working
-                0x20025e16        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e16                Line4_Working
+                0x20025cea        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025cea                Line4_Working
  .bss.Line5_Working
-                0x20025e17        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e17                Line5_Working
+                0x20025ceb        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025ceb                Line5_Working
  .bss.Line6_Working
-                0x20025e18        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e18                Line6_Working
+                0x20025cec        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025cec                Line6_Working
  .bss.Line7_Working
-                0x20025e19        0x1 ./Drivers/Device_Driver/RS485.o
-                0x20025e19                Line7_Working
- *fill*         0x20025e1a        0x2 
- .bss.lcddev    0x20025e1c        0xe ./Drivers/Device_Driver/lcd.o
-                0x20025e1c                lcddev
+                0x20025ced        0x1 ./Drivers/Device_Driver/RS485.o
+                0x20025ced                Line7_Working
+ *fill*         0x20025cee        0x2 
+ .bss.lcddev    0x20025cf0        0xe ./Drivers/Device_Driver/lcd.o
+                0x20025cf0                lcddev
  .bss.POINT_COLOR
-                0x20025e2a        0x2 ./Drivers/Device_Driver/lcd.o
-                0x20025e2a                POINT_COLOR
- .bss.matrix    0x20025e2c       0x1c ./Drivers/Device_Driver/xpt2046.o
-                0x20025e2c                matrix
- .bss.display   0x20025e48        0x8 ./Drivers/Device_Driver/xpt2046.o
-                0x20025e48                display
+                0x20025cfe        0x2 ./Drivers/Device_Driver/lcd.o
+                0x20025cfe                POINT_COLOR
+ .bss.matrix    0x20025d00       0x1c ./Drivers/Device_Driver/xpt2046.o
+                0x20025d00                matrix
+ .bss.display   0x20025d1c        0x8 ./Drivers/Device_Driver/xpt2046.o
+                0x20025d1c                display
  .bss.Matrix_Default
-                0x20025e50       0x1c ./Drivers/Device_Driver/xpt2046.o
-                0x20025e50                Matrix_Default
- .bss.screen.0  0x20025e6c        0x8 ./Drivers/Device_Driver/xpt2046.o
+                0x20025d24       0x1c ./Drivers/Device_Driver/xpt2046.o
+                0x20025d24                Matrix_Default
+ .bss.screen.0  0x20025d40        0x8 ./Drivers/Device_Driver/xpt2046.o
  .bss.KernelState
-                0x20025e74        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+                0x20025d48        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
  .bss.Idle_TCB.3
-                0x20025e78       0x5c ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+                0x20025d4c       0x5c ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
  .bss.Idle_Stack.2
-                0x20025ed4      0x200 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+                0x20025da8      0x200 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
  .bss.Timer_TCB.1
-                0x200260d4       0x5c ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+                0x20025fa8       0x5c ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
  .bss.Timer_Stack.0
-                0x20026130      0x200 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+                0x20026004      0x200 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
  .bss.xQueueRegistry
-                0x20026330       0x40 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
-                0x20026330                xQueueRegistry
+                0x20026204       0x40 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
+                0x20026204                xQueueRegistry
  .bss.pxCurrentTCB
-                0x20026370        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
-                0x20026370                pxCurrentTCB
+                0x20026244        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026244                pxCurrentTCB
  .bss.pxReadyTasksLists
-                0x20026374      0x460 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026248      0x460 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xDelayedTaskList1
-                0x200267d4       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x200266a8       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xDelayedTaskList2
-                0x200267e8       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x200266bc       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.pxDelayedTaskList
-                0x200267fc        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x200266d0        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.pxOverflowDelayedTaskList
-                0x20026800        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x200266d4        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xPendingReadyList
-                0x20026804       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x200266d8       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xTasksWaitingTermination
-                0x20026818       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x200266ec       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.uxDeletedTasksWaitingCleanUp
-                0x2002682c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026700        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xSuspendedTaskList
-                0x20026830       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026704       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.uxCurrentNumberOfTasks
-                0x20026844        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026718        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xTickCount
-                0x20026848        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x2002671c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.uxTopReadyPriority
-                0x2002684c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026720        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xSchedulerRunning
-                0x20026850        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026724        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xPendedTicks
-                0x20026854        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026728        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xYieldPending
-                0x20026858        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x2002672c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xNumOfOverflows
-                0x2002685c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026730        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.uxTaskNumber
-                0x20026860        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026734        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xNextTaskUnblockTime
-                0x20026864        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026738        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xIdleTaskHandle
-                0x20026868        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x2002673c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.uxSchedulerSuspended
-                0x2002686c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+                0x20026740        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
  .bss.xActiveTimerList1
-                0x20026870       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x20026744       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.xActiveTimerList2
-                0x20026884       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x20026758       0x14 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.pxCurrentTimerList
-                0x20026898        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x2002676c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.pxOverflowTimerList
-                0x2002689c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x20026770        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.xTimerQueue
-                0x200268a0        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x20026774        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.xTimerTaskHandle
-                0x200268a4        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x20026778        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.xLastTime.2
-                0x200268a8        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x2002677c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.ucStaticTimerQueueStorage.1
-                0x200268ac       0xa0 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+                0x20026780       0xa0 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .bss.xStaticTimerQueue.0
-                0x2002694c       0x50 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
- .bss.ucHeap    0x2002699c     0x2000 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
- .bss.xStart    0x2002899c        0x8 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
- .bss.pxEnd     0x200289a4        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+                0x20026820       0x50 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+ .bss.ucHeap    0x20026870     0x2000 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+ .bss.xStart    0x20028870        0x8 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+ .bss.pxEnd     0x20028878        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
  .bss.xFreeBytesRemaining
-                0x200289a8        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+                0x2002887c        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
  .bss.xMinimumEverFreeBytesRemaining
-                0x200289ac        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+                0x20028880        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
  .bss.xNumberOfSuccessfulAllocations
-                0x200289b0        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+                0x20028884        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
  .bss.xNumberOfSuccessfulFrees
-                0x200289b4        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
- .bss.__sf      0x200289b8      0x138 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-findfp.o)
-                0x200289b8                __sf
+                0x20028888        0x4 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+ .bss.__sf      0x2002888c      0x138 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-findfp.o)
+                0x2002888c                __sf
  .bss.__stdio_exit_handler
-                0x20028af0        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-findfp.o)
-                0x20028af0                __stdio_exit_handler
- .bss.errno     0x20028af4        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-reent.o)
-                0x20028af4                errno
+                0x200289c4        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-findfp.o)
+                0x200289c4                __stdio_exit_handler
+ .bss.errno     0x200289c8        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-reent.o)
+                0x200289c8                errno
  .bss.__lock___malloc_recursive_mutex
-                0x20028af8        0x1 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-lock.o)
-                0x20028af8                __lock___malloc_recursive_mutex
+                0x200289cc        0x1 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-lock.o)
+                0x200289cc                __lock___malloc_recursive_mutex
  .bss.__lock___sfp_recursive_mutex
-                0x20028af9        0x1 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-lock.o)
-                0x20028af9                __lock___sfp_recursive_mutex
- *fill*         0x20028afa        0x2 
+                0x200289cd        0x1 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-lock.o)
+                0x200289cd                __lock___sfp_recursive_mutex
+ *fill*         0x200289ce        0x2 
  .bss.__malloc_sbrk_start
-                0x20028afc        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-mallocr.o)
-                0x20028afc                __malloc_sbrk_start
+                0x200289d0        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-mallocr.o)
+                0x200289d0                __malloc_sbrk_start
  .bss.__malloc_free_list
-                0x20028b00        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-mallocr.o)
-                0x20028b00                __malloc_free_list
+                0x200289d4        0x4 D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libc_nano.a(libc_a-mallocr.o)
+                0x200289d4                __malloc_free_list
  *(COMMON)
-                0x20028b04                        . = ALIGN (0x4)
-                0x20028b04                        _ebss = .
-                0x20028b04                        __bss_end__ = _ebss
+                0x200289d8                        . = ALIGN (0x4)
+                0x200289d8                        _ebss = .
+                0x200289d8                        __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x20028b04      0x604 load address 0x080118ac
-                0x20028b08                        . = ALIGN (0x8)
- *fill*         0x20028b04        0x4 
+                0x200289d8      0x600 load address 0x080118ac
+                0x200289d8                        . = ALIGN (0x8)
                 [!provide]                        PROVIDE (end = .)
-                0x20028b08                        PROVIDE (_end = .)
-                0x20028d08                        . = (. + _Min_Heap_Size)
- *fill*         0x20028b08      0x200 
-                0x20029108                        . = (. + _Min_Stack_Size)
- *fill*         0x20028d08      0x400 
-                0x20029108                        . = ALIGN (0x8)
+                0x200289d8                        PROVIDE (_end = .)
+                0x20028bd8                        . = (. + _Min_Heap_Size)
+ *fill*         0x200289d8      0x200 
+                0x20028fd8                        . = (. + _Min_Stack_Size)
+ *fill*         0x20028bd8      0x400 
+                0x20028fd8                        . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -6104,67 +6125,67 @@ LOAD D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
 LOAD D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v8-m.main+fp/hard\libm.a
 LOAD D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v8-m.main+fp/hard\libgcc.a
 
-.debug_info     0x00000000    0x17fa7
- .debug_info    0x00000000      0xf84 ./Application/User/Core/app_freertos.o
- .debug_info    0x00000f84     0x31a7 ./Application/User/Core/main.o
- .debug_info    0x0000412b      0x648 ./Application/User/Core/stm32h5xx_it.o
- .debug_info    0x00004773      0x6a3 ./Application/User/Core/syscalls.o
- .debug_info    0x00004e16      0x168 ./Application/User/Core/sysmem.o
- .debug_info    0x00004f7e       0x30 ./Application/User/Startup/startup_stm32h573rivx.o
- .debug_info    0x00004fae      0x7f8 ./Application/User/Table_Tester/Table_Tester_App.o
- .debug_info    0x000057a6      0xd8e ./Drivers/CMSIS/system_stm32h5xx.o
- .debug_info    0x00006534      0xe0c ./Drivers/Device_Driver/GUI.o
- .debug_info    0x00007340      0x9c4 ./Drivers/Device_Driver/RS485.o
- .debug_info    0x00007d04      0x403 ./Drivers/Device_Driver/SPI.o
- .debug_info    0x00008107      0x24a ./Drivers/Device_Driver/delay.o
- .debug_info    0x00008351      0x50d ./Drivers/Device_Driver/lcd.o
- .debug_info    0x0000885e      0xb87 ./Drivers/Device_Driver/xpt2046.o
- .debug_info    0x000093e5     0x13b1 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
- .debug_info    0x0000a796      0xb0f ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
- .debug_info    0x0000b2a5      0x7b8 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
- .debug_info    0x0000ba5d     0x1418 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
- .debug_info    0x0000ce75      0xa4a ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
- .debug_info    0x0000d8bf      0x969 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
- .debug_info    0x0000e228     0x1216 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
- .debug_info    0x0000f43e     0x3732 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
- .debug_info    0x00012b70      0x2af ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
- .debug_info    0x00012e1f      0x2eb ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
- .debug_info    0x0001310a      0x14e ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
- .debug_info    0x00013258     0x15db ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
- .debug_info    0x00014833     0x2012 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
- .debug_info    0x00016845     0x12bc ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
- .debug_info    0x00017b01      0x4a6 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+.debug_info     0x00000000    0x180b1
+ .debug_info    0x00000000     0x1055 ./Application/User/Core/app_freertos.o
+ .debug_info    0x00001055     0x31a7 ./Application/User/Core/main.o
+ .debug_info    0x000041fc      0x681 ./Application/User/Core/stm32h5xx_it.o
+ .debug_info    0x0000487d      0x6a3 ./Application/User/Core/syscalls.o
+ .debug_info    0x00004f20      0x168 ./Application/User/Core/sysmem.o
+ .debug_info    0x00005088       0x30 ./Application/User/Startup/startup_stm32h573rivx.o
+ .debug_info    0x000050b8      0x7f8 ./Application/User/Table_Tester/Table_Tester_App.o
+ .debug_info    0x000058b0      0xd8e ./Drivers/CMSIS/system_stm32h5xx.o
+ .debug_info    0x0000663e      0xe0c ./Drivers/Device_Driver/GUI.o
+ .debug_info    0x0000744a      0x9c4 ./Drivers/Device_Driver/RS485.o
+ .debug_info    0x00007e0e      0x403 ./Drivers/Device_Driver/SPI.o
+ .debug_info    0x00008211      0x24a ./Drivers/Device_Driver/delay.o
+ .debug_info    0x0000845b      0x50d ./Drivers/Device_Driver/lcd.o
+ .debug_info    0x00008968      0xb87 ./Drivers/Device_Driver/xpt2046.o
+ .debug_info    0x000094ef     0x13b1 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
+ .debug_info    0x0000a8a0      0xb0f ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
+ .debug_info    0x0000b3af      0x7b8 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
+ .debug_info    0x0000bb67     0x1418 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
+ .debug_info    0x0000cf7f      0xa4a ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
+ .debug_info    0x0000d9c9      0x969 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
+ .debug_info    0x0000e332     0x1216 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
+ .debug_info    0x0000f548     0x3732 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+ .debug_info    0x00012c7a      0x2af ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
+ .debug_info    0x00012f29      0x2eb ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
+ .debug_info    0x00013214      0x14e ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
+ .debug_info    0x00013362     0x15db ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
+ .debug_info    0x0001493d     0x2012 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+ .debug_info    0x0001694f     0x12bc ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+ .debug_info    0x00017c0b      0x4a6 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
 
-.debug_abbrev   0x00000000     0x3e38
+.debug_abbrev   0x00000000     0x3e31
  .debug_abbrev  0x00000000      0x2fb ./Application/User/Core/app_freertos.o
  .debug_abbrev  0x000002fb      0x40a ./Application/User/Core/main.o
- .debug_abbrev  0x00000705      0x182 ./Application/User/Core/stm32h5xx_it.o
- .debug_abbrev  0x00000887      0x1b6 ./Application/User/Core/syscalls.o
- .debug_abbrev  0x00000a3d       0xbc ./Application/User/Core/sysmem.o
- .debug_abbrev  0x00000af9       0x24 ./Application/User/Startup/startup_stm32h573rivx.o
- .debug_abbrev  0x00000b1d      0x208 ./Application/User/Table_Tester/Table_Tester_App.o
- .debug_abbrev  0x00000d25      0x13a ./Drivers/CMSIS/system_stm32h5xx.o
- .debug_abbrev  0x00000e5f      0x278 ./Drivers/Device_Driver/GUI.o
- .debug_abbrev  0x000010d7      0x265 ./Drivers/Device_Driver/RS485.o
- .debug_abbrev  0x0000133c      0x189 ./Drivers/Device_Driver/SPI.o
- .debug_abbrev  0x000014c5      0x187 ./Drivers/Device_Driver/delay.o
- .debug_abbrev  0x0000164c      0x237 ./Drivers/Device_Driver/lcd.o
- .debug_abbrev  0x00001883      0x2e3 ./Drivers/Device_Driver/xpt2046.o
- .debug_abbrev  0x00001b66      0x1d7 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
- .debug_abbrev  0x00001d3d      0x25d ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
- .debug_abbrev  0x00001f9a      0x1e3 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
- .debug_abbrev  0x0000217d      0x241 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
- .debug_abbrev  0x000023be      0x235 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
- .debug_abbrev  0x000025f3      0x1fd ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
- .debug_abbrev  0x000027f0      0x28c ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
- .debug_abbrev  0x00002a7c      0x4ed ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
- .debug_abbrev  0x00002f69       0xf5 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
- .debug_abbrev  0x0000305e      0x1a5 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
- .debug_abbrev  0x00003203       0xb7 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
- .debug_abbrev  0x000032ba      0x326 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
- .debug_abbrev  0x000035e0      0x32a ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
- .debug_abbrev  0x0000390a      0x326 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
- .debug_abbrev  0x00003c30      0x208 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+ .debug_abbrev  0x00000705      0x17b ./Application/User/Core/stm32h5xx_it.o
+ .debug_abbrev  0x00000880      0x1b6 ./Application/User/Core/syscalls.o
+ .debug_abbrev  0x00000a36       0xbc ./Application/User/Core/sysmem.o
+ .debug_abbrev  0x00000af2       0x24 ./Application/User/Startup/startup_stm32h573rivx.o
+ .debug_abbrev  0x00000b16      0x208 ./Application/User/Table_Tester/Table_Tester_App.o
+ .debug_abbrev  0x00000d1e      0x13a ./Drivers/CMSIS/system_stm32h5xx.o
+ .debug_abbrev  0x00000e58      0x278 ./Drivers/Device_Driver/GUI.o
+ .debug_abbrev  0x000010d0      0x265 ./Drivers/Device_Driver/RS485.o
+ .debug_abbrev  0x00001335      0x189 ./Drivers/Device_Driver/SPI.o
+ .debug_abbrev  0x000014be      0x187 ./Drivers/Device_Driver/delay.o
+ .debug_abbrev  0x00001645      0x237 ./Drivers/Device_Driver/lcd.o
+ .debug_abbrev  0x0000187c      0x2e3 ./Drivers/Device_Driver/xpt2046.o
+ .debug_abbrev  0x00001b5f      0x1d7 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
+ .debug_abbrev  0x00001d36      0x25d ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
+ .debug_abbrev  0x00001f93      0x1e3 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
+ .debug_abbrev  0x00002176      0x241 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
+ .debug_abbrev  0x000023b7      0x235 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
+ .debug_abbrev  0x000025ec      0x1fd ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
+ .debug_abbrev  0x000027e9      0x28c ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
+ .debug_abbrev  0x00002a75      0x4ed ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+ .debug_abbrev  0x00002f62       0xf5 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
+ .debug_abbrev  0x00003057      0x1a5 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
+ .debug_abbrev  0x000031fc       0xb7 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
+ .debug_abbrev  0x000032b3      0x326 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
+ .debug_abbrev  0x000035d9      0x32a ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+ .debug_abbrev  0x00003903      0x326 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+ .debug_abbrev  0x00003c29      0x208 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
 
 .debug_aranges  0x00000000     0x1938
  .debug_aranges
@@ -6439,95 +6460,95 @@ LOAD D:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x0002f983       0x97 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
  .debug_macro   0x0002fa1a      0x222 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
 
-.debug_line     0x00000000    0x18c07
- .debug_line    0x00000000     0x1547 ./Application/User/Core/app_freertos.o
- .debug_line    0x00001547     0x1af3 ./Application/User/Core/main.o
- .debug_line    0x0000303a      0xc9b ./Application/User/Core/stm32h5xx_it.o
- .debug_line    0x00003cd5      0x8bf ./Application/User/Core/syscalls.o
- .debug_line    0x00004594      0x590 ./Application/User/Core/sysmem.o
- .debug_line    0x00004b24       0x7b ./Application/User/Startup/startup_stm32h573rivx.o
- .debug_line    0x00004b9f      0x765 ./Application/User/Table_Tester/Table_Tester_App.o
- .debug_line    0x00005304      0x808 ./Drivers/CMSIS/system_stm32h5xx.o
- .debug_line    0x00005b0c     0x1063 ./Drivers/Device_Driver/GUI.o
- .debug_line    0x00006b6f      0xe85 ./Drivers/Device_Driver/RS485.o
- .debug_line    0x000079f4      0x80d ./Drivers/Device_Driver/SPI.o
- .debug_line    0x00008201      0x561 ./Drivers/Device_Driver/delay.o
- .debug_line    0x00008762      0x9a4 ./Drivers/Device_Driver/lcd.o
- .debug_line    0x00009106     0x10fc ./Drivers/Device_Driver/xpt2046.o
- .debug_line    0x0000a202     0x101d ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
- .debug_line    0x0000b21f      0x9f0 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
- .debug_line    0x0000bc0f      0x848 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
- .debug_line    0x0000c457     0x25a2 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
- .debug_line    0x0000e9f9      0x9ca ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
- .debug_line    0x0000f3c3      0x9b1 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
- .debug_line    0x0000fd74      0xddf ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
- .debug_line    0x00010b53     0x1fbe ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
- .debug_line    0x00012b11      0x803 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
- .debug_line    0x00013314      0x7fa ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
- .debug_line    0x00013b0e      0x6ac ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
- .debug_line    0x000141ba     0x15aa ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
- .debug_line    0x00015764     0x1ced ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
- .debug_line    0x00017451      0xd60 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
- .debug_line    0x000181b1      0xa56 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+.debug_line     0x00000000    0x18c08
+ .debug_line    0x00000000     0x1548 ./Application/User/Core/app_freertos.o
+ .debug_line    0x00001548     0x1af3 ./Application/User/Core/main.o
+ .debug_line    0x0000303b      0xc9b ./Application/User/Core/stm32h5xx_it.o
+ .debug_line    0x00003cd6      0x8bf ./Application/User/Core/syscalls.o
+ .debug_line    0x00004595      0x590 ./Application/User/Core/sysmem.o
+ .debug_line    0x00004b25       0x7b ./Application/User/Startup/startup_stm32h573rivx.o
+ .debug_line    0x00004ba0      0x765 ./Application/User/Table_Tester/Table_Tester_App.o
+ .debug_line    0x00005305      0x808 ./Drivers/CMSIS/system_stm32h5xx.o
+ .debug_line    0x00005b0d     0x1063 ./Drivers/Device_Driver/GUI.o
+ .debug_line    0x00006b70      0xe85 ./Drivers/Device_Driver/RS485.o
+ .debug_line    0x000079f5      0x80d ./Drivers/Device_Driver/SPI.o
+ .debug_line    0x00008202      0x561 ./Drivers/Device_Driver/delay.o
+ .debug_line    0x00008763      0x9a4 ./Drivers/Device_Driver/lcd.o
+ .debug_line    0x00009107     0x10fc ./Drivers/Device_Driver/xpt2046.o
+ .debug_line    0x0000a203     0x101d ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
+ .debug_line    0x0000b220      0x9f0 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
+ .debug_line    0x0000bc10      0x848 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
+ .debug_line    0x0000c458     0x25a2 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
+ .debug_line    0x0000e9fa      0x9ca ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
+ .debug_line    0x0000f3c4      0x9b1 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
+ .debug_line    0x0000fd75      0xddf ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
+ .debug_line    0x00010b54     0x1fbe ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+ .debug_line    0x00012b12      0x803 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
+ .debug_line    0x00013315      0x7fa ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
+ .debug_line    0x00013b0f      0x6ac ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
+ .debug_line    0x000141bb     0x15aa ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
+ .debug_line    0x00015765     0x1ced ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+ .debug_line    0x00017452      0xd60 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+ .debug_line    0x000181b2      0xa56 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
 
-.debug_str      0x00000000   0x10e7cc
- .debug_str     0x00000000    0xfae47 ./Application/User/Core/app_freertos.o
-                              0xfb104 (size before relaxing)
- .debug_str     0x000fae47     0x1bd8 ./Application/User/Core/main.o
+.debug_str      0x00000000   0x10e83f
+ .debug_str     0x00000000    0xfaf1a ./Application/User/Core/app_freertos.o
+                              0xfb1d7 (size before relaxing)
+ .debug_str     0x000faf1a     0x1b78 ./Application/User/Core/main.o
                               0xf6f8d (size before relaxing)
- .debug_str     0x000fca1f      0x256 ./Application/User/Core/stm32h5xx_it.o
-                              0xfa512 (size before relaxing)
- .debug_str     0x000fcc75     0x1e5f ./Application/User/Core/syscalls.o
+ .debug_str     0x000fca92      0x256 ./Application/User/Core/stm32h5xx_it.o
+                              0xfa572 (size before relaxing)
+ .debug_str     0x000fcce8     0x1e5f ./Application/User/Core/syscalls.o
                                0x99cb (size before relaxing)
- .debug_str     0x000fead4       0x78 ./Application/User/Core/sysmem.o
+ .debug_str     0x000feb47       0x78 ./Application/User/Core/sysmem.o
                                0x61e3 (size before relaxing)
- .debug_str     0x000feb4c       0x50 ./Application/User/Startup/startup_stm32h573rivx.o
+ .debug_str     0x000febbf       0x50 ./Application/User/Startup/startup_stm32h573rivx.o
                                  0xa0 (size before relaxing)
- .debug_str     0x000feb9c       0xa5 ./Application/User/Table_Tester/Table_Tester_App.o
+ .debug_str     0x000fec0f       0xa5 ./Application/User/Table_Tester/Table_Tester_App.o
                               0xd9436 (size before relaxing)
- .debug_str     0x000fec41      0x108 ./Drivers/CMSIS/system_stm32h5xx.o
+ .debug_str     0x000fecb4      0x108 ./Drivers/CMSIS/system_stm32h5xx.o
                               0xd9491 (size before relaxing)
- .debug_str     0x000fed49      0x27c ./Drivers/Device_Driver/GUI.o
+ .debug_str     0x000fedbc      0x27c ./Drivers/Device_Driver/GUI.o
                               0xd9d85 (size before relaxing)
- .debug_str     0x000fefc5      0x315 ./Drivers/Device_Driver/RS485.o
+ .debug_str     0x000ff038      0x315 ./Drivers/Device_Driver/RS485.o
                               0xdd35e (size before relaxing)
- .debug_str     0x000ff2da      0x123 ./Drivers/Device_Driver/SPI.o
+ .debug_str     0x000ff34d      0x123 ./Drivers/Device_Driver/SPI.o
                               0xdc028 (size before relaxing)
- .debug_str     0x000ff3fd       0x4c ./Drivers/Device_Driver/delay.o
+ .debug_str     0x000ff470       0x4c ./Drivers/Device_Driver/delay.o
                                0x4556 (size before relaxing)
- .debug_str     0x000ff449       0xbe ./Drivers/Device_Driver/lcd.o
+ .debug_str     0x000ff4bc       0xbe ./Drivers/Device_Driver/lcd.o
                               0xdcc5d (size before relaxing)
- .debug_str     0x000ff507      0x150 ./Drivers/Device_Driver/xpt2046.o
+ .debug_str     0x000ff57a      0x150 ./Drivers/Device_Driver/xpt2046.o
                               0xdceb0 (size before relaxing)
- .debug_str     0x000ff657     0x1d1e ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
+ .debug_str     0x000ff6ca     0x1d1e ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_dma.o
                               0xe0c71 (size before relaxing)
- .debug_str     0x00101375      0x697 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
+ .debug_str     0x001013e8      0x697 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_gpio.o
                               0xdb276 (size before relaxing)
- .debug_str     0x00101a0c      0x80a ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
+ .debug_str     0x00101a7f      0x80a ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_lpuart.o
                               0xe66f6 (size before relaxing)
- .debug_str     0x00102216     0x1486 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
+ .debug_str     0x00102289     0x1486 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_rcc.o
                               0xe4c80 (size before relaxing)
- .debug_str     0x0010369c     0x26e3 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
+ .debug_str     0x0010370f     0x26e3 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_spi.o
                               0xea1ef (size before relaxing)
- .debug_str     0x00105d7f      0xa92 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
+ .debug_str     0x00105df2      0xa92 ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_usart.o
                               0xe6f96 (size before relaxing)
- .debug_str     0x00106811     0x15ed ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
+ .debug_str     0x00106884     0x15ed ./Drivers/STM32H5xx_HAL_Driver/stm32h5xx_ll_utils.o
                               0xe7583 (size before relaxing)
- .debug_str     0x00107dfe     0x2f7e ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
+ .debug_str     0x00107e71     0x2f7e ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/cmsis_os2.o
                               0xe2334 (size before relaxing)
- .debug_str     0x0010ad7c      0x1b0 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
+ .debug_str     0x0010adef      0x1b0 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/list.o
                                0xb5e8 (size before relaxing)
- .debug_str     0x0010af2c     0x102f ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
+ .debug_str     0x0010af9f     0x102f ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/port.o
                                0xa5c1 (size before relaxing)
- .debug_str     0x0010bf5b       0xe4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
+ .debug_str     0x0010bfce       0xe4 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/portasm.o
                                0x78c6 (size before relaxing)
- .debug_str     0x0010c03f      0xab8 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
+ .debug_str     0x0010c0b2      0xab8 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/queue.o
                                0xdef4 (size before relaxing)
- .debug_str     0x0010caf7     0x10ac ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
+ .debug_str     0x0010cb6a     0x10ac ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/tasks.o
                                0xe7bc (size before relaxing)
- .debug_str     0x0010dba3      0x626 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
+ .debug_str     0x0010dc16      0x626 ./Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported/timers.o
                                0xe240 (size before relaxing)
- .debug_str     0x0010e1c9      0x603 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
+ .debug_str     0x0010e23c      0x603 ./Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4/heap_4.o
                                0xcde4 (size before relaxing)
 
 .comment        0x00000000       0x43

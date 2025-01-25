@@ -1,5 +1,6 @@
 #include "Main_CPU_Comm.h"
 #include "stdio.h"
+#include "delay.h"
 
 //char MainCPU_RX_Buffer[MAINCPU_RX_BUFF_SIZE];
 //char MainCPU_TX_Buffer[MAINCPU_TX_BUFF_SIZE];
@@ -640,7 +641,7 @@ MSG_RCIV_Result MainCPU_Message_Buffering(void)			//Version 3
 */
 //-------------------------------------------------------------------------------------
 
-MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1) (for this project.)
+MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer, uint8_t *SOP)			//Version 3.1 (Revision 1 for this project.)
 {
 	uint8_t *MSG_Start = 0;
 	uint8_t *MSG_End = 0;
@@ -651,7 +652,7 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1)
 	uint8_t MSG_Packet_Len = 0;
 	uint16_t MSG_CRC = 0;
 //	static uint8_t *Next_Packet_SOP = (uint8_t *)RX_Buffer;
-	uint8_t *Next_Packet_SOP = 0;
+	uint8_t *Next_Packet_SOP = SOP;
 	uint32_t Bytes_ToEND = 0;
 	MSG_RCIV_Result Result = None;
 	static uint8_t *Extra_Buffer = 0;
@@ -660,7 +661,7 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1)
 	uint8_t Copy_Loop = 0;
 	uint16_t Last_Index = sizeof(RX_Buffer)-1;
 	
-	*Next_Packet_SOP = RX_Buffer;
+	//Next_Packet_SOP = RX_Buffer;
 
 	memset(Main_MSG, 0, sizeof(Main_MSG));
 	memset(&Message, 0, sizeof(Message));
@@ -678,7 +679,8 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1)
 	if(MSG_Start == 0) {MSG_Start = (uint8_t *)memchr(RX_Buffer, 'U', (Next_Packet_SOP-(uint8_t *)&RX_Buffer[0]) );}
 	if(MSG_Start != 0)
 	{
-		LL_mDelay(1);
+		//LL_mDelay(1);
+		Delay_ms_OS(1);
 		if(MSG_Start == (uint8_t *)&RX_Buffer[Last_Index])
 		{
 			if( memchr(&RX_Buffer[0], CoProc_Num, 1) != 0 )
@@ -692,6 +694,7 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1)
 				{
 					Next_Packet_SOP = (uint8_t *)RX_Buffer;
 					MSG_Start = 0;
+					Result = Invalid;
 				}
 			}
 		}
@@ -705,6 +708,7 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1)
 			{
 				Next_Packet_SOP = MSG_Start + 1;
 				MSG_Start = 0;
+				Result = Invalid;
 			}
 		}
 	}
@@ -762,62 +766,66 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1)
 			MSG_Packet_Len = Copy_Loop;
 			MSG_Start = (uint8_t *)Main_MSG;
 			MSG_End = (uint8_t *)strstr(memchr(Main_MSG, '\r', MSG_FRAME_BUFF_SIZE), "\r\n");
+
+
+			//MSG_Start = (uint8_t *)memchr((char *)MSG_Start, 1, 2); //MSG_Start = (uint8_t *)strstr((char *)MSG_Start, "U\1");
+			if(memchr((char *)MSG_Start, CoProc_Num, 2) != 0)
+			{
+				//memset(Main_MSG, 0, sizeof(Main_MSG));
+				if(MSG_End > MSG_Start)
+				{
+					//memcpy(Main_MSG, MSG_Start, ((MSG_End - 2) - MSG_Start));
+					Main_MSG_Len = (MSG_End - 2) - MSG_Start;
+					MSG_Data_Len = *(MSG_Start + 4);
+					MSG_CRC = *(MSG_End-2);
+					MSG_CRC = MSG_CRC << 8;
+					MSG_CRC |= *(MSG_End-1);
+				}
+
+
+				//if(b_CRC_16_X25_fw(Main_MSG, Main_MSG_Len) == MSG_CRC)
+				if(1)
+				{
+					Message.Packet_Token = Main_MSG[0];
+					Message.Co_Num = Main_MSG[1];
+					Message.Command = Main_MSG[2];
+					Message.Operation = Main_MSG[3];
+					Message.data_lenght = Main_MSG[4];
+					memcpy(Message.data, &Main_MSG[5], Main_MSG[4]);
+					//Message.Result = ;
+					MainCPU_Message_Parsing(Message);
+					memset(MSG_Start, 0, MSG_Packet_Len);
+					Result = OK_Send_ACK; //strcpy(MainCPU_TX_Buffer, "OK.\r\n");
+				}
+				else if(b_CRC_16_X25_fw(Main_MSG, Main_MSG_Len) != MSG_CRC)
+				{
+					//memset(MSG_Start, 0, MSG_Packet_Len);
+					//strcpy(MainCPU_TX_Buffer, "CRC Failed.\r\n");
+					//LL_mDelay(20);
+					Result = CRC_NOK;
+				}
+			}
+			else
+			{
+				memset(MSG_Start, 0, MSG_Packet_Len);
+				//strcpy(MainCPU_TX_Buffer, "Wrong message.\r\n");
+				//LL_mDelay(20);
+				Result = Invalid;
+			}
 		}
 		
 		//MSG_End = (uint8_t *)strstr(memchr((char *)MSG_Start, '\r', MSG_FRAME_BUFF_SIZE), "\r\n"); //(uint8_t *)strstr((char *)MSG_Start+1, "\r\n");
-		if(MSG_End == 0)
+		else if(MSG_End == 0)
 		{
 			//memset(RX_Buffer, 0, sizeof(RX_Buffer));
 			Next_Packet_SOP = MSG_Start + 1; //(uint8_t *)RX_Buffer;
 			//////MSG_End = (uint8_t *)strstr(memchr(RX_Buffer, '\r', (MSG_FRAME_BUFF_SIZE-Bytes_ToEND)), "\r\n");
 			
+			Result = No_Ending;
 //			Result = 0;
 		}
 	
-		//MSG_Start = (uint8_t *)memchr((char *)MSG_Start, 1, 2); //MSG_Start = (uint8_t *)strstr((char *)MSG_Start, "U\1");
-		if(memchr((char *)MSG_Start, CoProc_Num, 2) != 0)
-		{
-			//memset(Main_MSG, 0, sizeof(Main_MSG));
-			if(MSG_End > MSG_Start)
-			{
-			//memcpy(Main_MSG, MSG_Start, ((MSG_End - 2) - MSG_Start));
-			Main_MSG_Len = (MSG_End - 2) - MSG_Start;
-			MSG_Data_Len = *(MSG_Start + 4);
-			MSG_CRC = *(MSG_End-2);
-			MSG_CRC = MSG_CRC << 8;
-			MSG_CRC |= *(MSG_End-1);
-			}
-			
-			
-			//if(b_CRC_16_X25_fw(Main_MSG, Main_MSG_Len) == MSG_CRC)
-			if(1)
-			{
-				Message.Packet_Token = Main_MSG[0];
-				Message.Co_Num = Main_MSG[1];
-				Message.Command = Main_MSG[2];
-				Message.Operation = Main_MSG[3];
-				Message.data_lenght = Main_MSG[4];
-				memcpy(Message.data, &Main_MSG[5], Main_MSG[4]);
-				//Message.Result = ;
-				MainCPU_Message_Parsing(Message);
-				memset(MSG_Start, 0, MSG_Packet_Len);
-				Result = OK_Send_ACK; //strcpy(MainCPU_TX_Buffer, "OK.\r\n");
-			}
-			else if(b_CRC_16_X25_fw(Main_MSG, Main_MSG_Len) != MSG_CRC)
-			{
-				//memset(MSG_Start, 0, MSG_Packet_Len);
-				//strcpy(MainCPU_TX_Buffer, "CRC Failed.\r\n");
-				//LL_mDelay(20);
-				Result = CRC_NOK;
-			}
-		}
-		else
-		{
-			memset(MSG_Start, 0, MSG_Packet_Len);
-			//strcpy(MainCPU_TX_Buffer, "Wrong message.\r\n");
-			//LL_mDelay(20);
-			Result = Invalid;
-		}
+
 	
 	}
 	
@@ -840,6 +848,7 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer)			//Version 3 (Revision 1)
 //		Next_Packet_SOP = (uint8_t *)RX_Buffer;
 //	}
 	
+	SOP = Next_Packet_SOP;
 	return Result;			
 		
 }

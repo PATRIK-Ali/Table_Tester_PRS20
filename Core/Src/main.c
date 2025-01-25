@@ -44,14 +44,14 @@
 
 /* USER CODE BEGIN PV */
 uint16_t General_Buffer[76800];
-uint8_t LineX_RX_Buffer[1000];
-uint8_t Line1_RX_Buffer[100];
-uint8_t Line2_RX_Buffer[100];
-uint8_t Line3_RX_Buffer[100];
-uint8_t Line4_RX_Buffer[100];
-uint8_t Line5_RX_Buffer[100];
-uint8_t Line6_RX_Buffer[100];
-uint8_t Line7_RX_Buffer[100];
+uint8_t LineX_RX_Buffer[Line_BUF_Size * 10];
+uint8_t Line1_RX_Buffer[Line_BUF_Size];
+uint8_t Line2_RX_Buffer[Line_BUF_Size];
+uint8_t Line3_RX_Buffer[Line_BUF_Size];
+uint8_t Line4_RX_Buffer[Line_BUF_Size];
+uint8_t Line5_RX_Buffer[Line_BUF_Size];
+uint8_t Line6_RX_Buffer[Line_BUF_Size];
+uint8_t Line7_RX_Buffer[Line_BUF_Size];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -326,7 +326,7 @@ static void MX_LPUART1_UART_Init(void)
 
   /* USER CODE BEGIN LPUART1_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_LPUART_DMA_GetRegAddr(LPUART1, LL_LPUART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line5_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&Line5_RX_Buffer; //(uint32_t)&LineX_RX_Buffer[Line5_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -422,7 +422,7 @@ static void MX_UART4_Init(void)
 
   /* USER CODE BEGIN UART4_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART4, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line3_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&Line3_RX_Buffer; //(uint32_t)&LineX_RX_Buffer[Line3_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;;//LL_DMA_HWREQUEST_BLK
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -515,7 +515,7 @@ static void MX_UART5_Init(void)
 
   /* USER CODE BEGIN UART5_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART5, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line2_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&Line2_RX_Buffer; //(uint32_t)&LineX_RX_Buffer[Line2_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -608,7 +608,7 @@ static void MX_UART7_Init(void)
 
   /* USER CODE BEGIN UART7_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(UART7, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line7_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&Line7_RX_Buffer; //(uint32_t)&LineX_RX_Buffer[Line7_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -701,7 +701,7 @@ static void MX_USART3_UART_Init(void)
 
   /* USER CODE BEGIN USART3_Init 1 */
   DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART3, LL_USART_DMA_REG_DATA_RECEIVE);
-  DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line1_BUF_Index];
+  DMA_InitStruct.DestAddress = (uint32_t)&Line1_RX_Buffer; //(uint32_t)&LineX_RX_Buffer[Line1_BUF_Index];
   DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
   DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
   DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -794,7 +794,7 @@ static void MX_USART6_UART_Init(void)
 
   /* USER CODE BEGIN USART6_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART6, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line4_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&Line4_RX_Buffer; //(uint32_t)&LineX_RX_Buffer[Line4_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;
@@ -887,7 +887,7 @@ static void MX_USART11_UART_Init(void)
 
   /* USER CODE BEGIN USART11_Init 1 */
 	DMA_InitStruct.SrcAddress = LL_USART_DMA_GetRegAddr(USART11, LL_USART_DMA_REG_DATA_RECEIVE);
-	DMA_InitStruct.DestAddress = (uint32_t)&LineX_RX_Buffer[Line6_BUF_Index];
+	DMA_InitStruct.DestAddress = (uint32_t)&Line6_RX_Buffer; //(uint32_t)&LineX_RX_Buffer[Line6_BUF_Index];
 	DMA_InitStruct.Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
 	DMA_InitStruct.BlkHWRequest = LL_DMA_HWREQUEST_SINGLEBURST;//LL_DMA_HWREQUEST_SINGLEBURST;
 	DMA_InitStruct.DataAlignment = LL_DMA_DATA_ALIGN_ZEROPADD;

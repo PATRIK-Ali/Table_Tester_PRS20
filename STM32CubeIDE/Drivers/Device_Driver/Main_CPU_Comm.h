@@ -129,6 +129,7 @@ typedef enum
 	OK_Send_ACK,
 	CRC_NOK,
 	Invalid,
+	No_Ending,
 	Waiting
 }MSG_RCIV_Result;
 
@@ -149,7 +150,7 @@ typedef struct Parsed_MSG
 extern Parsed_MSG_Struct Parsed_MSG;
 
 //void MainCPU_CommLine_Init(void);
-MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer);
+MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer, uint8_t *SOP);
 Parsed_MSG_Struct MainCPU_Message_Parsing(CoProc_MSG_Struct Message);
 void MainCPU_Message_Maker(CoProc1_Command_Type COM, CoProc1_Operation_Type OP, char *Data, uint8_t Data_Len, CoProc1_Result_Type Result);
 void MainCPU_Message_Sender(void);

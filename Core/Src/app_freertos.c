@@ -336,6 +336,13 @@ void Lines_Sequence_Task(void *argument)
 void RX_Task(void *argument)
 {
 	uint8_t *Buffer_P = 0;
+	static uint8_t *Line1_Next_SOP = &Line1_RX_Buffer;
+	static uint8_t *Line2_Next_SOP = &Line2_RX_Buffer;
+	static uint8_t *Line3_Next_SOP = &Line3_RX_Buffer;
+	static uint8_t *Line4_Next_SOP = &Line4_RX_Buffer;
+	static uint8_t *Line5_Next_SOP = &Line5_RX_Buffer;
+	static uint8_t *Line6_Next_SOP = &Line6_RX_Buffer;
+	static uint8_t *Line7_Next_SOP = &Line7_RX_Buffer;
 	//uint8_t Lines_Sequence[10] = {0,1,2,3,4,5,6,7,0,0};
 //	uint8_t Lines_Sequence[50];
 //
@@ -352,7 +359,7 @@ void RX_Task(void *argument)
 //		if(LL_USART_IsActiveFlag_BUSY(Line6_UART)) {osMessageQueuePut (Lines_Seq_Queue_Handle, &Lines_Sequence[6], 1, 100);}
 //		if(LL_USART_IsActiveFlag_BUSY(Line7_UART)) {osMessageQueuePut (Lines_Seq_Queue_Handle, &Lines_Sequence[7], 1, 100);}
 
-		switch (Message_Buffering(Line1_RX_Buffer))
+		switch (Message_Buffering(Line1_RX_Buffer, Line1_Next_SOP))
 		{
 		case Waiting:
 			Delay_ms_OS(2);
@@ -769,7 +776,7 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_ON_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit5_RST, RF_OFF_Bit5);
-					RS485_Tx(1, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
 					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
 				}
 				else
@@ -777,7 +784,7 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_ON_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit5_RST, RF_ON_Bit5);
-					RS485_Tx(1, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
 					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
 				}
 

@@ -3,5 +3,5 @@ C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freert
 C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:158:6:StartDefaultTask	7
 C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:321:6:Lines_Sequence_Task	8
 C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:336:6:RX_Task	4
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:437:6:LCD_Touch_Task	90
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:798:6:Callback01	1
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:444:6:LCD_Touch_Task	90
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:805:6:Callback01	1
