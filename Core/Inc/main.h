@@ -41,6 +41,8 @@ extern "C" {
 #include "stm32h5xx_ll_usart.h"
 #include "stm32h5xx_ll_gpio.h"
 #include "stm32h5xx_ll_crc.h"
+#include "stm32h5xx_hal.h"
+//#include "stm32h5xx_hal_pcd.h"
 
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
@@ -51,6 +53,8 @@ extern "C" {
 #include "lcd.h"
 #include "xpt2046.h"
 #include "RS485.h"
+#include "usb_device.h"
+#include "Table_Tester_App.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

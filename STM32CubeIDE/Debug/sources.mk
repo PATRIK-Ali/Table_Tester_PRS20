@@ -30,4 +30,6 @@ Drivers/Device_Driver \
 Drivers/STM32H5xx_HAL_Driver \
 Middlewares/RTOS2/CMSIS/RTOS2/Core/TZ_Non_Supported \
 Middlewares/RTOS2/CMSIS/RTOS2/Heap/Heap_4 \
+Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src \
+Middlewares/ST/STM32_USB_Device_Library/Core/Src \
 

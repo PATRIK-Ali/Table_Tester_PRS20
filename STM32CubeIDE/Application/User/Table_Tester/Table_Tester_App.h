@@ -2,6 +2,7 @@
 #define _TABLE_TESTER_APP_H_
 
 #include "stdint.h"
+#include "stm32h5xx_ll_gpio.h"
 
 /**
  * @author  Ali Mesgari
@@ -15,9 +16,27 @@
  *
  */
 
+#define Power27V_Ctrl_Port		GPIOC
+#define Power27V_Ctrl_Pin		LL_GPIO_PIN_13
+
 // LCD texts
+typedef enum
+{
+	PRSX_Page = 0,
+	Modules_Page,
+	FEU_Page,
+	IJU_Page,
+}LCD_Pages_t;
+
+extern LCD_Pages_t LCD_Page;
+extern const char LCD_Back_Str[];
+extern const char LCD_PRS10_Str[];
+extern const char LCD_PRS20_Str[];
+extern const char LCD_PRS30_Str[];
 extern const char LCD_FEU_Str[];
 extern const char LCD_IJU_Str[];
+extern const char LCD_PowerSupply_OFF_Str[];
+extern const char LCD_PowerSupply_ON_Str[];
 extern const char LCD_RX1_Str[];
 extern const char LCD_RX2_Str[];
 extern const char LCD_INJ_OFF_Str[];
@@ -90,10 +109,59 @@ typedef struct MSG_Frame_t
 	uint8_t Changed;
 }MSG_Frame_t;
 
+typedef enum
+{
+	OFF = 0,
+	ON
+}ON_OFF_t;
+
+typedef enum
+{
+	RX_One = 1,
+	RX_Two
+}RX_t;
+
+typedef enum
+{
+	Filter_16_22 = 0,
+	Filter_20_32,
+	Filter_30_46,
+	Filter_42_63
+}RF_Filter_t;
+
+typedef enum
+{
+	Gain_Low = 0,
+	Gain_High
+}Gain_Path_t;
+
+typedef struct FEU_Status_t
+{
+	ON_OFF_t FEU_Power_Supply;
+	RX_t FEU_RX;
+	ON_OFF_t FEU_INJ;
+	RF_Filter_t FEU_RF_Filter;
+	Gain_Path_t FEU_Gain_Path;
+	ON_OFF_t FEU_RF_Power;
+	uint8_t FEU_Atten;
+}FEU_Status_t;
+
+typedef struct IJU_Status_t
+{
+	ON_OFF_t IJU_Power_Supply;
+	ON_OFF_t IJU_INJ;
+	RF_Filter_t IJU_RF_Filter;
+	ON_OFF_t IJU_RF_Power;
+	uint8_t IJU_Atten;
+}IJU_Status_t;
+
 extern MSG_Frame_t MIU_FEU_MSG;
 extern MSG_Frame_t MIU_IJU_MSG;
+extern FEU_Status_t FEU_Status;
+extern IJU_Status_t IJU_Status;
 
-
+void Power27V_Switch(uint8_t State);
+char Power27V_Status(void);
 void Message_Maker(MSG_Frame_t *MSG, uint8_t *PCKT_X, uint8_t Bit_Reset_CMD, uint8_t Bit_CMD);
 
 

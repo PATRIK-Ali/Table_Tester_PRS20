@@ -59,6 +59,7 @@
 /* External variables --------------------------------------------------------*/
 
 /* USER CODE BEGIN EV */
+extern PCD_HandleTypeDef hpcd_USB_DRD_FS;
 
 /* USER CODE END EV */
 
@@ -160,6 +161,8 @@ void DebugMon_Handler(void)
 /* please refer to the startup file (startup_stm32h5xx.s).                    */
 /******************************************************************************/
 
+/* USER CODE BEGIN 1 */
+
 /**
   * @brief This function handles GPDMA1 Channel 0 global interrupt.
   */
@@ -195,7 +198,6 @@ void GPDMA1_Channel0_IRQHandler(void)
   /* USER CODE END GPDMA1_Channel0_IRQn 1 */
 }
 
-/* USER CODE BEGIN 1 */
 void GPDMA1_Channel1_IRQHandler(void)
 {
 
@@ -303,4 +305,34 @@ void GPDMA1_Channel6_IRQHandler(void)
 	LL_DMA_EnableIT_TC(Line7_DMA, Line7_DMA_CH);
 	LL_DMA_EnableChannel(Line7_DMA, Line7_DMA_CH);
 }
+
+/**
+  * @brief This function handles USB FS global interrupt.
+  */
+void USB_DRD_FS_IRQHandler(void)
+{
+  /* USER CODE BEGIN USB_DRD_FS_IRQn 0 */
+
+  /* USER CODE END USB_DRD_FS_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_DRD_FS);
+  /* USER CODE BEGIN USB_DRD_FS_IRQn 1 */
+
+  /* USER CODE END USB_DRD_FS_IRQn 1 */
+}
+
+/**
+  * @brief This function handles UCPD1 global interrupt.
+  */
+void UCPD1_IRQHandler(void)
+{
+  /* USER CODE BEGIN UCPD1_IRQn 0 */
+
+  /* USER CODE END UCPD1_IRQn 0 */
+  //USBPD_PORT0_IRQHandler();
+
+  /* USER CODE BEGIN UCPD1_IRQn 1 */
+
+  /* USER CODE END UCPD1_IRQn 1 */
+}
+
 /* USER CODE END 1 */

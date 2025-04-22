@@ -2,8 +2,15 @@
 #include "stm32h5xx_ll_crc.h"
 
 // LCD texts
+LCD_Pages_t LCD_Page = PRSX_Page;
+const char LCD_Back_Str[] = "< Back >";
+const char LCD_PRS10_Str[] = "< PRS10 >";
+const char LCD_PRS20_Str[] = "< PRS20 >";
+const char LCD_PRS30_Str[] = "< PRS30 >";
 const char LCD_FEU_Str[] = "FEU Status:";
 const char LCD_IJU_Str[] = "IJU Status:";
+const char LCD_PowerSupply_OFF_Str[] = "Power Supply OFF";
+const char LCD_PowerSupply_ON_Str[] = "Power Supply ON";
 const char LCD_RX1_Str[] = "RX 1";
 const char LCD_RX2_Str[] = "RX 2";
 const char LCD_INJ_OFF_Str[] = "INJ OFF";
@@ -80,6 +87,20 @@ MSG_Frame_t MIU_IJU_MSG =
 		.New = 0,
 		.Changed = 0
 };
+
+FEU_Status_t FEU_Status;
+IJU_Status_t IJU_Status;
+
+void Power27V_Switch(uint8_t State)
+{
+	if(State == 0) {LL_GPIO_ResetOutputPin(Power27V_Ctrl_Port, Power27V_Ctrl_Pin);}
+	else {LL_GPIO_SetOutputPin(Power27V_Ctrl_Port, Power27V_Ctrl_Pin);}
+}
+
+char Power27V_Status(void)
+{
+	return LL_GPIO_IsOutputPinSet(Power27V_Ctrl_Port, Power27V_Ctrl_Pin);
+}
 
 void Message_Maker(MSG_Frame_t *MSG, uint8_t *PCKT_X, uint8_t Bit_Reset_CMD, uint8_t Bit_CMD)
 {

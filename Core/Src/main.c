@@ -43,6 +43,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+extern PCD_HandleTypeDef hpcd_USB_DRD_FS;
 uint16_t General_Buffer[76800];
 uint8_t LineX_RX_Buffer[Line_BUF_Size * 10];
 uint8_t Line1_RX_Buffer[Line_BUF_Size];
@@ -52,6 +53,8 @@ uint8_t Line4_RX_Buffer[Line_BUF_Size];
 uint8_t Line5_RX_Buffer[Line_BUF_Size];
 uint8_t Line6_RX_Buffer[Line_BUF_Size];
 uint8_t Line7_RX_Buffer[Line_BUF_Size];
+uint32_t TX_Bytes_Count_2 = 0;
+uint8_t Byte_MSG = 255;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -70,6 +73,7 @@ static void MX_USART6_UART_Init(void);
 static void MX_UART7_Init(void);
 static void MX_USART11_UART_Init(void);
 static void MX_CRC_Init(void);
+static void MX_USB_PCD_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -107,6 +111,7 @@ int main(void)
   LL_PWR_DisableUCPDDeadBattery();
 
   /* USER CODE BEGIN Init */
+  HAL_InitTick(TICK_INT_PRIORITY);
 
   /* USER CODE END Init */
 
@@ -134,9 +139,14 @@ int main(void)
   MX_UART7_Init();
   MX_USART11_UART_Init();
   MX_CRC_Init();
+  MX_USB_PCD_Init();
   /* USER CODE BEGIN 2 */
   LCD_Init();
   xpt2046_init();
+
+  //USBPD_HW_IF_GlobalHwInit();
+  MX_USB_Device_Init();
+  //MX_USBPD_Init();
 
   memset(General_Buffer, 0, sizeof(General_Buffer));
   /* USER CODE END 2 */
@@ -157,6 +167,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+//	  for(;;)
+//	  {
+//		  RS485_Tx(5, &Byte_MSG, sizeof(Byte_MSG));
+//		  TX_Bytes_Count_2 ++;
+//	  }
 
     /* USER CODE BEGIN 3 */
   }
@@ -184,6 +199,13 @@ void SystemClock_Config(void)
 
    /* Wait till HSE is ready */
   while(LL_RCC_HSE_IsReady() != 1)
+  {
+  }
+
+  LL_RCC_HSI48_Enable();
+
+  /* Wait till HSI48 is ready */
+  while(LL_RCC_HSI48_IsReady() != 1)
   {
   }
 
@@ -1116,7 +1138,7 @@ static void MX_GPIO_Init(void)
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOC, SPI_TFT_CS_Pin|TFT_RS_Pin|Touch_CS_Pin|RS485_2_DE_Pin
-                          |RS485_5_DE_Pin);
+                          |RS485_5_DE_Pin|Power27V_Ctrl_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOB, RS485_1_DE_Pin|RS485_6_DE_Pin|RS485_7_DE_Pin|RS485_3_DE_Pin
@@ -1124,7 +1146,7 @@ static void MX_GPIO_Init(void)
 
   /**/
   GPIO_InitStruct.Pin = SPI_TFT_CS_Pin|TFT_RS_Pin|Touch_CS_Pin|RS485_2_DE_Pin
-                          |RS485_5_DE_Pin;
+                          |RS485_5_DE_Pin|Power27V_Ctrl_Pin;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -1176,6 +1198,70 @@ static void MX_CRC_Init(void)
   /* USER CODE BEGIN CRC_Init 2 */
 
   /* USER CODE END CRC_Init 2 */
+
+}
+
+/**
+  * @brief USB Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USB_PCD_Init(void)
+{
+
+  /* USER CODE BEGIN USB_Init 0 */
+	//LL_RCC_SetUSBClockSource(LL_RCC_USB_CLKSOURCE_HSI48);
+	/* Enable VDDUSB */
+	//LL_PWR_EnableVddUSB(); //HAL_PWREx_EnableVddUSB();
+	/* Peripheral clock enable */
+	//__HAL_RCC_USB_CLK_ENABLE();
+
+  /* USER CODE END USB_Init 0 */
+
+  /* USER CODE BEGIN USB_Init 1 */
+
+  /* USER CODE END USB_Init 1 */
+//  hpcd_USB_DRD_FS.Instance = USB_DRD_FS;
+//  hpcd_USB_DRD_FS.Init.dev_endpoints = 8;
+//  hpcd_USB_DRD_FS.Init.speed = USBD_FS_SPEED;
+//  hpcd_USB_DRD_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+//  hpcd_USB_DRD_FS.Init.Sof_enable = DISABLE;
+//  hpcd_USB_DRD_FS.Init.low_power_enable = DISABLE;
+//  hpcd_USB_DRD_FS.Init.lpm_enable = DISABLE;
+//  hpcd_USB_DRD_FS.Init.battery_charging_enable = DISABLE;
+//  hpcd_USB_DRD_FS.Init.vbus_sensing_enable = DISABLE;
+//  hpcd_USB_DRD_FS.Init.bulk_doublebuffer_enable = DISABLE;
+//  hpcd_USB_DRD_FS.Init.iso_singlebuffer_enable = DISABLE;
+//  if (HAL_PCD_Init(&hpcd_USB_DRD_FS) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+
+  /* USER CODE BEGIN USB_Init 2 */
+	LL_GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+	GPIO_InitStruct.Pin = LL_GPIO_PIN_11|LL_GPIO_PIN_12;
+	  GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
+	  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
+	  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	  GPIO_InitStruct.Pull = LL_GPIO_PULL_UP;
+	  GPIO_InitStruct.Alternate = LL_GPIO_AF_10;
+	  LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	 LL_RCC_SetUSBClockSource(LL_RCC_USB_CLKSOURCE_HSI48);
+
+	  /* Enable VDDUSB */
+	  HAL_PWREx_EnableVddUSB();
+	    /* Peripheral clock enable */
+	    __HAL_RCC_USB_CLK_ENABLE();
+	    /* USB_DRD_FS interrupt Init */
+//	    HAL_NVIC_SetPriority(USB_DRD_FS_IRQn, 0, 0);
+//	    HAL_NVIC_EnableIRQ(USB_DRD_FS_IRQn);
+
+	    NVIC_SetPriority(USB_DRD_FS_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+	    NVIC_EnableIRQ(USB_DRD_FS_IRQn);
+
+  /* USER CODE END USB_Init 2 */
 
 }
 

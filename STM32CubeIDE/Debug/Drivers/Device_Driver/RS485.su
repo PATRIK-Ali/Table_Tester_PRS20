@@ -10,7 +10,7 @@
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:1881:22:LL_LPUART_ClearFlag_TC	16	static
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:2525:25:LL_LPUART_ReceiveData8	16	static
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_lpuart.h:2548:22:LL_LPUART_TransmitData8	16	static
-../Drivers/Device_Driver/RS485.c:40:6:RS485_Init	4	static
-../Drivers/Device_Driver/RS485.c:157:6:RS485_Set_Line_Driver_Receiver	16	static
-../Drivers/Device_Driver/RS485.c:400:6:RS485_Tx	352	static,ignoring_inline_asm
-../Drivers/Device_Driver/RS485.c:628:6:RS485_Rx	344	static
+../Drivers/Device_Driver/RS485.c:41:6:RS485_Init	4	static
+../Drivers/Device_Driver/RS485.c:158:6:RS485_Set_Line_Driver_Receiver	16	static
+../Drivers/Device_Driver/RS485.c:401:6:RS485_Tx	344	static,ignoring_inline_asm
+../Drivers/Device_Driver/RS485.c:639:6:RS485_Rx	344	static

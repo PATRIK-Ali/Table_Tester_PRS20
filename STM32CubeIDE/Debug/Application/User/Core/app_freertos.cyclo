@@ -1,7 +1,7 @@
 ../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:3137:26:LL_USART_IsActiveFlag_BUSY	2
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:109:6:MX_FREERTOS_Init	1
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:158:6:StartDefaultTask	7
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:321:6:Lines_Sequence_Task	8
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:336:6:RX_Task	4
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:444:6:LCD_Touch_Task	90
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:805:6:Callback01	1
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:112:6:MX_FREERTOS_Init	1
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:161:6:StartDefaultTask	7
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:324:6:Lines_Sequence_Task	8
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:339:6:RX_Task	17
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:483:6:LCD_Touch_Task	140
+C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:1007:6:Callback01	1

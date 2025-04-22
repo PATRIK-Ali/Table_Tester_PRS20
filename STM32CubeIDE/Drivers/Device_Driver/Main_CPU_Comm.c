@@ -1,6 +1,5 @@
 #include "Main_CPU_Comm.h"
 #include "stdio.h"
-#include "delay.h"
 
 //char MainCPU_RX_Buffer[MAINCPU_RX_BUFF_SIZE];
 //char MainCPU_TX_Buffer[MAINCPU_TX_BUFF_SIZE];
@@ -655,11 +654,11 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer, uint8_t *SOP)			//Version 
 	uint8_t *Next_Packet_SOP = SOP;
 	uint32_t Bytes_ToEND = 0;
 	MSG_RCIV_Result Result = None;
-	static uint8_t *Extra_Buffer = 0;
-	CoProc_MSG_Struct Message;
+	//static uint8_t *Extra_Buffer = 0;
+	Packet_MSG_Struct Message;
 	static uint8_t Wait = 0;
 	uint8_t Copy_Loop = 0;
-	uint16_t Last_Index = sizeof(RX_Buffer)-1;
+	uint16_t Last_Index = Line_BUF_Size - 1; //sizeof(RX_Buffer)-1;
 	
 	//Next_Packet_SOP = RX_Buffer;
 
@@ -675,43 +674,15 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer, uint8_t *SOP)			//Version 
 	
 	//MSG_Start = (uint8_t *)strstr(RX_Buffer, "U\1");
 	//MSG_Start = (uint8_t *)strstr(memchr(RX_Buffer, 'U', sizeof(RX_Buffer)), "U\1");
-	MSG_Start = (uint8_t *)memchr(Next_Packet_SOP, 'U', Bytes_ToEND); 	//sizeof(RX_Buffer)		//MSG_Start = (uint8_t *)memchr(RX_Buffer, 'U', sizeof(RX_Buffer));
-	if(MSG_Start == 0) {MSG_Start = (uint8_t *)memchr(RX_Buffer, 'U', (Next_Packet_SOP-(uint8_t *)&RX_Buffer[0]) );}
-	if(MSG_Start != 0)
-	{
-		//LL_mDelay(1);
-		Delay_ms_OS(1);
-		if(MSG_Start == (uint8_t *)&RX_Buffer[Last_Index])
-		{
-			if( memchr(&RX_Buffer[0], CoProc_Num, 1) != 0 )
-			{
-				__NOP();
+	MSG_Start = (uint8_t *)memchr(Next_Packet_SOP, Header, Bytes_ToEND); 	//sizeof(RX_Buffer)		//MSG_Start = (uint8_t *)memchr(RX_Buffer, 'U', sizeof(RX_Buffer));
+	if(MSG_Start == 0) {MSG_Start = (uint8_t *)memchr(RX_Buffer, Header, (Next_Packet_SOP-(uint8_t *)&RX_Buffer[0]) );}
+//	if(MSG_Start != 0)
+//	{
+//		//LL_mDelay(1);
+//		Delay_ms_OS(1);
+//
+//	}
 
-			}
-			else 
-			{
-				if(Wait == 1)
-				{
-					Next_Packet_SOP = (uint8_t *)RX_Buffer;
-					MSG_Start = 0;
-					Result = Invalid;
-				}
-			}
-		}
-		else if( memchr(MSG_Start+1, CoProc_Num, 1) != 0 )
-		{
-			__NOP();
-		}
-		else 
-		{
-			if(Wait == 1)
-			{
-				Next_Packet_SOP = MSG_Start + 1;
-				MSG_Start = 0;
-				Result = Invalid;
-			}
-		}
-	}
 	if(MSG_Start != 0)
 	{
 //		LL_mDelay(20);
@@ -724,105 +695,84 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer, uint8_t *SOP)			//Version 
 		{
 			Main_MSG[Copy_Loop] = (char)*MSG_Read;
 			MSG_Read++;
+
 			if(MSG_Read > (uint8_t *)&RX_Buffer[Last_Index]) {MSG_Read = (uint8_t *)RX_Buffer;}
-			if(*MSG_Read == '\r')
-			{
-				if(MSG_Read+1 > (uint8_t *)&RX_Buffer[Last_Index])
-				{
-					if(RX_Buffer[0] == '\n')
-						{
-							MSG_End=MSG_Read;
-							strcpy(&Main_MSG[Copy_Loop+1], "\r\n");
-							Copy_Loop = Copy_Loop + 2;
-							break;
-						}
-				}
-				else
-				{
-					if(*(MSG_Read+1) == '\n')
-						{
-							MSG_End=MSG_Read;
-							strcpy(&Main_MSG[Copy_Loop+1], "\r\n");
-							Copy_Loop = Copy_Loop + 2;
-							break;
-						}
-				}
-			}
+
+			MSG_End = MSG_Read;
 		}
 		
 		if(MSG_End != 0)
-		{
-			if(MSG_Start < MSG_End)
+		{	// CRC must be calculated here then make a decision about MSG_End, Next_SOP and cleaning.
+//			MSG_CRC = Main_MSG[9];
+//			MSG_CRC = MSG_CRC << 8;
+//			MSG_CRC |= Main_MSG[8];
+			MSG_CRC = Main_MSG[8];
+			MSG_CRC = MSG_CRC << 8;
+			MSG_CRC |= Main_MSG[9];
+
+			LL_CRC_ResetCRCCalculationUnit(CRC);
+			for(Copy_Loop=0; Copy_Loop<MSG_FRAME_BUFF_SIZE-2; Copy_Loop++)
 			{
-				memset(MSG_Start, 0, (MSG_End-MSG_Start)+2);
-			}
-			else if(MSG_Start > MSG_End)
-			{
-				memset(MSG_Start, 0, ((uint8_t *)&RX_Buffer[Last_Index]-MSG_Start)+1);
-				memset(&RX_Buffer[0], 0, (MSG_End-(uint8_t *)&RX_Buffer[0])+2 );
+				LL_CRC_FeedData8(CRC, Main_MSG[Copy_Loop]);
 			}
 			
-			Next_Packet_SOP = MSG_End+2;
-			MSG_Packet_Len = Copy_Loop;
-			MSG_Start = (uint8_t *)Main_MSG;
-			MSG_End = (uint8_t *)strstr(memchr(Main_MSG, '\r', MSG_FRAME_BUFF_SIZE), "\r\n");
-
-
-			//MSG_Start = (uint8_t *)memchr((char *)MSG_Start, 1, 2); //MSG_Start = (uint8_t *)strstr((char *)MSG_Start, "U\1");
-			if(memchr((char *)MSG_Start, CoProc_Num, 2) != 0)
+			if(MSG_CRC == LL_CRC_ReadData16(CRC))
 			{
-				//memset(Main_MSG, 0, sizeof(Main_MSG));
+				if(MSG_Start < MSG_End)
+				{
+					memset(MSG_Start, 0, (MSG_End-MSG_Start)+2);
+				}
+				else if(MSG_Start > MSG_End)
+				{
+					memset(MSG_Start, 0, ((uint8_t *)&RX_Buffer[Last_Index]-MSG_Start)+1);
+					memset(&RX_Buffer[0], 0, (MSG_End-(uint8_t *)&RX_Buffer[0])+2 );
+				}
+
+				Next_Packet_SOP = MSG_End+1;
+				MSG_Packet_Len = MSG_FRAME_BUFF_SIZE; //Copy_Loop;
+				MSG_Start = (uint8_t *)Main_MSG;
+				//MSG_End = (uint8_t *)strstr(memchr(Main_MSG, '\r', MSG_FRAME_BUFF_SIZE), "\r\n");
+				MSG_End = (uint8_t *)&Main_MSG[MSG_FRAME_BUFF_SIZE-1];
+
 				if(MSG_End > MSG_Start)
 				{
 					//memcpy(Main_MSG, MSG_Start, ((MSG_End - 2) - MSG_Start));
-					Main_MSG_Len = (MSG_End - 2) - MSG_Start;
-					MSG_Data_Len = *(MSG_Start + 4);
-					MSG_CRC = *(MSG_End-2);
-					MSG_CRC = MSG_CRC << 8;
-					MSG_CRC |= *(MSG_End-1);
+					Main_MSG_Len = MSG_FRAME_Length-2; //CRC excluded. //(MSG_End - 2) - MSG_Start;
+					MSG_Data_Len = MSG_FRAME_Length-3; //Header & CRC excluded. //*(MSG_Start + 4);
+//					MSG_CRC = *(MSG_End-2);
+//					MSG_CRC = MSG_CRC << 8;
+//					MSG_CRC |= *(MSG_End-1);
 				}
 
-
-				//if(b_CRC_16_X25_fw(Main_MSG, Main_MSG_Len) == MSG_CRC)
-				if(1)
-				{
-					Message.Packet_Token = Main_MSG[0];
-					Message.Co_Num = Main_MSG[1];
-					Message.Command = Main_MSG[2];
-					Message.Operation = Main_MSG[3];
-					Message.data_lenght = Main_MSG[4];
-					memcpy(Message.data, &Main_MSG[5], Main_MSG[4]);
-					//Message.Result = ;
-					MainCPU_Message_Parsing(Message);
-					memset(MSG_Start, 0, MSG_Packet_Len);
-					Result = OK_Send_ACK; //strcpy(MainCPU_TX_Buffer, "OK.\r\n");
-				}
-				else if(b_CRC_16_X25_fw(Main_MSG, Main_MSG_Len) != MSG_CRC)
-				{
-					//memset(MSG_Start, 0, MSG_Packet_Len);
-					//strcpy(MainCPU_TX_Buffer, "CRC Failed.\r\n");
-					//LL_mDelay(20);
-					Result = CRC_NOK;
-				}
+				Message.Packet_Token = Main_MSG[0];
+				Message.PCKT_ID = Main_MSG[1];
+				Message.Data1 = Main_MSG[2];
+				Message.Data2 = Main_MSG[3];
+				Message.Data3 = Main_MSG[4];
+				Message.Data4 = Main_MSG[5];
+				Message.Data5 = Main_MSG[6];
+				Message.Data6 = Main_MSG[7];
+//				Message.Operation = Main_MSG[3];
+//				Message.data_lenght = Main_MSG[4];
+//				memcpy(Message.data, &Main_MSG[5], Main_MSG[4]);
+				//Message.Result = ;
+				//MainCPU_Message_Parsing(Message);
+				Message_Parsing(Message);
+				memset(MSG_Start, 0, MSG_Packet_Len);
+				Result = OK_Send_ACK; //strcpy(MainCPU_TX_Buffer, "OK.\r\n");
 			}
 			else
 			{
-				memset(MSG_Start, 0, MSG_Packet_Len);
-				//strcpy(MainCPU_TX_Buffer, "Wrong message.\r\n");
-				//LL_mDelay(20);
-				Result = Invalid;
+				Result = CRC_NOK;
+				Next_Packet_SOP++;
 			}
+
 		}
 		
-		//MSG_End = (uint8_t *)strstr(memchr((char *)MSG_Start, '\r', MSG_FRAME_BUFF_SIZE), "\r\n"); //(uint8_t *)strstr((char *)MSG_Start+1, "\r\n");
 		else if(MSG_End == 0)
 		{
-			//memset(RX_Buffer, 0, sizeof(RX_Buffer));
-			Next_Packet_SOP = MSG_Start + 1; //(uint8_t *)RX_Buffer;
-			//////MSG_End = (uint8_t *)strstr(memchr(RX_Buffer, '\r', (MSG_FRAME_BUFF_SIZE-Bytes_ToEND)), "\r\n");
-			
+			Next_Packet_SOP = MSG_Start + 1;
 			Result = No_Ending;
-//			Result = 0;
 		}
 	
 
@@ -854,62 +804,152 @@ MSG_RCIV_Result Message_Buffering(uint8_t *RX_Buffer, uint8_t *SOP)			//Version 
 }
 //-------------------------------------------------------------------------------------
 
-Parsed_MSG_Struct MainCPU_Message_Parsing(CoProc_MSG_Struct Message)
+//Parsed_MSG_Struct MainCPU_Message_Parsing(CoProc_MSG_Struct Message)
+//{
+//	Parsed_MSG_Struct MSG;
+//
+//	memset(&MSG, 0, sizeof(MSG));
+//	memset(&Parsed_MSG, 0, sizeof(Parsed_MSG));
+//
+//	if(Message.Command == C_BATT_Charger)
+//	{
+//		MSG.Command = C_BATT_Charger;
+//		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
+//		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
+//		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	if(Message.Command == C_Siren)
+//	{
+//		MSG.Command = C_Siren;
+//		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
+//		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
+//		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	if(Message.Command == C_Sound_Line)
+//	{
+//		MSG.Command = C_Sound_Line;
+//		if(Message.Operation == O_CONFIG) {MSG.Operation = O_CONFIG;}
+//		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	if(Message.Command == C_Relay)
+//	{
+//		MSG.Command = C_Relay;
+//		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
+//		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
+//		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	if( (Message.Command == C_Battery)||(Message.Command == C_AC)||(Message.Command == C_ExtSpeaker)||(Message.Command == C_Siren)||(Message.Command == C_AUX)||(Message.Command == C_VDD) )
+//	{
+//		MSG.Command = Message.Command;
+//		if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	MSG.data_lenght = Message.data_lenght;
+//	memcpy(MSG.data, Message.data, sizeof(MSG.data));
+//
+//	MSG.New_MSG = 1;
+//	Parsed_MSG = MSG;
+//	return MSG;
+//}
+
+//-------------------------------------------------------------------------------------
+
+Parsed_MSG_Struct Message_Parsing(Packet_MSG_Struct Message)
 {
 	Parsed_MSG_Struct MSG;
 	
 	memset(&MSG, 0, sizeof(MSG));
 	memset(&Parsed_MSG, 0, sizeof(Parsed_MSG));
 	
-	if(Message.Command == C_BATT_Charger)
+	if(Message.PCKT_ID == FEUtoMIU_0)
 	{
-		MSG.Command = C_BATT_Charger;
-		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
-		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
-		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+		MSG.PCKT_ID = FEUtoMIU_0;
+		MSG.Data1 = Message.Data1;
+		MSG.Data2 = Message.Data2;
+		MSG.Data3 = Message.Data3;
+		MSG.Data4 = Message.Data4;
+		MSG.Data5 = Message.Data5;
+		MSG.Data6 = Message.Data6;
+	}
+
+	if(Message.PCKT_ID == FEUtoMIU_1)
+	{
+		MSG.PCKT_ID = FEUtoMIU_1;
+		MSG.Data1 = Message.Data1;
+		MSG.Data2 = Message.Data2;
+		MSG.Data3 = Message.Data3;
+		MSG.Data4 = Message.Data4;
+		MSG.Data5 = Message.Data5;
+		MSG.Data6 = Message.Data6;
 	}
 	
-	if(Message.Command == C_Siren)
+	if(Message.PCKT_ID == IJUtoMIU_0)
 	{
-		MSG.Command = C_Siren;
-		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
-		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
-		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+		MSG.PCKT_ID = IJUtoMIU_0;
+		MSG.Data1 = Message.Data1;
+		MSG.Data2 = Message.Data2;
+		MSG.Data3 = Message.Data3;
+		MSG.Data4 = Message.Data4;
+		MSG.Data5 = Message.Data5;
+		MSG.Data6 = Message.Data6;
 	}
-	
-	if(Message.Command == C_Sound_Line)
+
+	if(Message.PCKT_ID == IJUtoMIU_1)
 	{
-		MSG.Command = C_Sound_Line;
-		if(Message.Operation == O_CONFIG) {MSG.Operation = O_CONFIG;}
-		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+		MSG.PCKT_ID = IJUtoMIU_1;
+		MSG.Data1 = Message.Data1;
+		MSG.Data2 = Message.Data2;
+		MSG.Data3 = Message.Data3;
+		MSG.Data4 = Message.Data4;
+		MSG.Data5 = Message.Data5;
+		MSG.Data6 = Message.Data6;
 	}
-	
-	if(Message.Command == C_Relay)
-	{
-		MSG.Command = C_Relay;
-		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
-		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
-		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
-	}
-	
-	if( (Message.Command == C_Battery)||(Message.Command == C_AC)||(Message.Command == C_ExtSpeaker)||(Message.Command == C_Siren)||(Message.Command == C_AUX)||(Message.Command == C_VDD) )
-	{
-		MSG.Command = Message.Command;
-		if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
-	}
-	
-	MSG.data_lenght = Message.data_lenght;
-	memcpy(MSG.data, Message.data, sizeof(MSG.data));
+
+//	if(Message.Command == C_Siren)
+//	{
+//		MSG.Command = C_Siren;
+//		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
+//		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
+//		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	if(Message.Command == C_Sound_Line)
+//	{
+//		MSG.Command = C_Sound_Line;
+//		if(Message.Operation == O_CONFIG) {MSG.Operation = O_CONFIG;}
+//		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	if(Message.Command == C_Relay)
+//	{
+//		MSG.Command = C_Relay;
+//		if(Message.Operation == O_ON) {MSG.Operation = O_ON;}
+//		else if(Message.Operation == O_OFF) {MSG.Operation = O_OFF;}
+//		else if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	if( (Message.Command == C_Battery)||(Message.Command == C_AC)||(Message.Command == C_ExtSpeaker)||(Message.Command == C_Siren)||(Message.Command == C_AUX)||(Message.Command == C_VDD) )
+//	{
+//		MSG.Command = Message.Command;
+//		if(Message.Operation == O_STATUS) {MSG.Operation = O_STATUS;}
+//	}
+//
+//	MSG.data_lenght = Message.data_lenght;
+//	memcpy(MSG.data, Message.data, sizeof(MSG.data));
 	
 	MSG.New_MSG = 1;
 	Parsed_MSG = MSG;
 	return MSG;
 }
-	
+
 //-------------------------------------------------------------------------------------
 
-void MainCPU_Message_Maker(CoProc1_Command_Type COM, CoProc1_Operation_Type OP, char *Data, uint8_t Data_Len, CoProc1_Result_Type Result)
-{/*
+/*void MainCPU_Message_Maker(CoProc1_Command_Type COM, CoProc1_Operation_Type OP, char *Data, uint8_t Data_Len, CoProc1_Result_Type Result)
+{
 	int CRC_Calc = 0;
 	uint8_t CRC_Len = 0;
 	
@@ -928,12 +968,12 @@ void MainCPU_Message_Maker(CoProc1_Command_Type COM, CoProc1_Operation_Type OP, 
 	MainCPU_TX_Buffer[CRC_Len+1] = CRC_Calc;
 	MainCPU_TX_Buffer[CRC_Len+2] = '\r';
 	MainCPU_TX_Buffer[CRC_Len+3] = '\n';
-	*/
-}
+
+}*/
 //-------------------------------------------------------------------------------------
 
-void MainCPU_Message_Sender(void)
-{/*
+/*void MainCPU_Message_Sender(void)
+{
 	uint8_t *MSG_Start = 0;
 	uint8_t *MSG_End = 0;
 	uint8_t MSG_Packet_Len = 0;
@@ -957,7 +997,7 @@ void MainCPU_Message_Sender(void)
 		LL_mDelay(20);
 		memset(MainCPU_TX_Buffer, 0, sizeof(MainCPU_TX_Buffer));
 	}
-	*/
+
 //	if(strlen(MainCPU_TX_Buffer) != 0)
 //	{
 //		LL_DMA_DisableChannel(DMA1, LL_DMA_CHANNEL_2);
@@ -968,7 +1008,7 @@ void MainCPU_Message_Sender(void)
 //	}
 	
 	
-}
+}*/
 //-------------------------------------------------------------------------------------
 
 

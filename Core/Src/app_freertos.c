@@ -46,6 +46,9 @@
 char Str[50];
 char I = 0;
 const uint8_t Lines_Sequence[10] = {0,1,2,3,4,5,6,7,0,0};
+uint8_t RX_Task_Done = 0;
+uint8_t LCD_Touch_Task_Done = 0;
+uint32_t TX_Bytes_Count = 0;
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -136,7 +139,7 @@ void MX_FREERTOS_Init(void) {
   /* creation of defaultTask */
   //defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
   //Lines_Sequence_Task_Handle = osThreadNew(Lines_Sequence_Task, NULL, &Lines_Sequence_Task_attributes);
-  //RX_Task_Handle = osThreadNew(RX_Task, NULL, &RX_Task_attributes);
+  RX_Task_Handle = osThreadNew(RX_Task, NULL, &RX_Task_attributes);
   LCD_Touch_Task_Handle = osThreadNew(LCD_Touch_Task, NULL, &LCD_Touch_Task_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -350,6 +353,7 @@ void RX_Task(void *argument)
 
 	for(;;)
 	{
+		RX_Task_Done = 0;
 		//osThreadFlagsWait (1, osFlagsWaitAny, osWaitForever);
 //		if(LL_USART_IsActiveFlag_BUSY(Line1_UART)) {osMessageQueuePut (Lines_Seq_Queue_Handle, &Lines_Sequence[1], 1, 100);}
 //		if(LL_USART_IsActiveFlag_BUSY(Line2_UART)) {osMessageQueuePut (Lines_Seq_Queue_Handle, &Lines_Sequence[2], 1, 100);}
@@ -359,7 +363,7 @@ void RX_Task(void *argument)
 //		if(LL_USART_IsActiveFlag_BUSY(Line6_UART)) {osMessageQueuePut (Lines_Seq_Queue_Handle, &Lines_Sequence[6], 1, 100);}
 //		if(LL_USART_IsActiveFlag_BUSY(Line7_UART)) {osMessageQueuePut (Lines_Seq_Queue_Handle, &Lines_Sequence[7], 1, 100);}
 
-		switch (Message_Buffering(Line1_RX_Buffer, Line1_Next_SOP))
+		switch (Message_Buffering(Line3_RX_Buffer, Line3_Next_SOP))
 		{
 		case Waiting:
 			Delay_ms_OS(2);
@@ -389,51 +393,86 @@ void RX_Task(void *argument)
 			__NOP();
 			break;
 		}
-		/*
+
 		if(Parsed_MSG.New_MSG == 1)
 		{
-			if(Parsed_MSG.Command == C_BATT_Charger)
+//			if(Parsed_MSG.Command == C_BATT_Charger)
+//			{
+//				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
+//				//Parsed_MSG.New_MSG = 0;
+//			}
+//
+//			if(Parsed_MSG.Command == C_Siren)
+//			{
+//				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
+//				//Parsed_MSG.New_MSG = 0;
+//			}
+//
+//			if(Parsed_MSG.Command == C_Sound_Line)
+//			{
+//				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
+//				//Parsed_MSG.New_MSG = 0;
+//			}
+//
+//			if(Parsed_MSG.Command == C_Relay)
+//			{
+//				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
+//				//Parsed_MSG.New_MSG = 0;
+//			}
+//			//-------------------
+//			if( (Parsed_MSG.Command == C_Battery)||(Parsed_MSG.Command == C_AC)||(Parsed_MSG.Command == C_ExtSpeaker)||(Parsed_MSG.Command == C_Siren)||(Parsed_MSG.Command == C_AUX)||(Parsed_MSG.Command == C_VDD) )
+//			{
+//				if(Parsed_MSG.Operation == O_STATUS)
+//				{
+//					osMessageQueuePut (Inputs_Queue_Handle, &Parsed_MSG, NULL, 0);
+//					//Parsed_MSG.New_MSG = 0;
+//					Count++;
+//				}
+//			}
+
+			if(Parsed_MSG.PCKT_ID == FEUtoMIU_0)
 			{
-				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
+				if( (Parsed_MSG.Data1 & INJ_ON_Bit1) == INJ_ON_Bit1) {FEU_Status.FEU_INJ = ON;}
+				else {FEU_Status.FEU_INJ = OFF;}
+
+				if( (Parsed_MSG.Data1 & RF_42_63_Bit2_3) == RF_42_63_Bit2_3) {FEU_Status.FEU_RF_Filter = Filter_42_63;}
+				else if( (Parsed_MSG.Data1 & RF_30_46_Bit2_3) == RF_30_46_Bit2_3) {FEU_Status.FEU_RF_Filter = Filter_30_46;}
+				else if( (Parsed_MSG.Data1 & RF_20_32_Bit2_3) == RF_20_32_Bit2_3) {FEU_Status.FEU_RF_Filter = Filter_20_32;}
+				else {FEU_Status.FEU_RF_Filter = Filter_16_22;}
+
+				if( (Parsed_MSG.Data1 & RF_ON_Bit5) == RF_ON_Bit5) {FEU_Status.FEU_RF_Power = ON;}
+				else {FEU_Status.FEU_RF_Power = OFF;}
+
 				//Parsed_MSG.New_MSG = 0;
 			}
 
-			if(Parsed_MSG.Command == C_Siren)
+			if(Parsed_MSG.PCKT_ID == IJUtoMIU_0)
 			{
-				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
-				//Parsed_MSG.New_MSG = 0;
-			}
+				if( (Parsed_MSG.Data1 & INJ_ON_Bit1) == INJ_ON_Bit1) {IJU_Status.IJU_INJ = ON;}
+				else {IJU_Status.IJU_INJ = OFF;}
 
-			if(Parsed_MSG.Command == C_Sound_Line)
-			{
-				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
-				//Parsed_MSG.New_MSG = 0;
-			}
+				if( (Parsed_MSG.Data1 & RF_42_63_Bit2_3) == RF_42_63_Bit2_3) {IJU_Status.IJU_RF_Filter = Filter_42_63;}
+				else if( (Parsed_MSG.Data1 & RF_30_46_Bit2_3) == RF_30_46_Bit2_3) {IJU_Status.IJU_RF_Filter = Filter_30_46;}
+				else if( (Parsed_MSG.Data1 & RF_20_32_Bit2_3) == RF_20_32_Bit2_3) {IJU_Status.IJU_RF_Filter = Filter_20_32;}
+				else {IJU_Status.IJU_RF_Filter = Filter_16_22;}
 
-			if(Parsed_MSG.Command == C_Relay)
-			{
-				osMessageQueuePut (Outputs_Queue_Handle, &Parsed_MSG, NULL, 0);
+				if( (Parsed_MSG.Data1 & RF_ON_Bit5) == RF_ON_Bit5) {IJU_Status.IJU_RF_Power = ON;}
+				else {IJU_Status.IJU_RF_Power = OFF;}
+
+				IJU_Status.IJU_Atten = Parsed_MSG.Data2 & 0b00111111;
+
 				//Parsed_MSG.New_MSG = 0;
-			}
-			//-------------------
-			if( (Parsed_MSG.Command == C_Battery)||(Parsed_MSG.Command == C_AC)||(Parsed_MSG.Command == C_ExtSpeaker)||(Parsed_MSG.Command == C_Siren)||(Parsed_MSG.Command == C_AUX)||(Parsed_MSG.Command == C_VDD) )
-			{
-				if(Parsed_MSG.Operation == O_STATUS)
-				{
-					osMessageQueuePut (Inputs_Queue_Handle, &Parsed_MSG, NULL, 0);
-					//Parsed_MSG.New_MSG = 0;
-					Count++;
-				}
 			}
 
 			Parsed_MSG.New_MSG = 0;
 		}
-		 */
 
 
 		//		Task_Done.MainCPU_Comm_RX_Task = 1;
 		//		osThreadFlagsWait(1, osFlagsWaitAny, osWaitForever);
 		//		Task_Done.MainCPU_Comm_RX_Task = 0;
+
+		RX_Task_Done = 1;
 
 
 	}
@@ -451,8 +490,12 @@ void LCD_Touch_Task(void *argument)
 	char i = 0;
 	uint16_t X = 0;
 	uint16_t Y = 0;
+	uint8_t Text_Line = 20;
+
 	uint8_t Sync_MSG = 255;
 	memset(Str, 0, sizeof(Str));
+
+	LCD_Page = PRSX_Page;
 
 	osDelay(100);
 
@@ -460,28 +503,139 @@ void LCD_Touch_Task(void *argument)
 	getDisplayPoint(&display, Read_Value(), &matrix ) ;
 
 	LCD_Clear(BLACK);
-	Show_Str(5, 10, YELLOW, BLACK, (u8 *)LCD_FEU_Str,20,1);
-	Show_Str(5, 30, WHITE, BLACK, (u8 *)LCD_RX1_Str,20,1);
-	Show_Str(60, 30, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
-	Show_Str(150, 30, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
-	Show_Str(5, 50, WHITE, BLACK, (u8 *)LCD_Gain_Low_Str,20,1);
-	Show_Str(150, 50, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
-	Show_Str(5, 70, WHITE, BLACK, (u8 *)LCD_Atten_Str,20,1);
-	LCD_DrawLine(0, 88, 239, 88, RED);
-	Show_Str(5, 90, YELLOW, BLACK, (u8 *)LCD_IJU_Str,20,1);
-	Show_Str(5, 110, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
-	Show_Str(95, 110, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
-	Show_Str(5, 130, WHITE, BLACK, (u8 *)LCD_Atten_Str,20,1);
-	Show_Str(150, 130, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
+	Show_Str(83, 100, WHITE, BLACK, (u8 *)LCD_PRS10_Str,20,1);
+	Show_Str(83, 140, WHITE, BLACK, (u8 *)LCD_PRS20_Str,20,1);
+	Show_Str(83, 180, WHITE, BLACK, (u8 *)LCD_PRS30_Str,20,1);
+//	Show_Str(5, 10, YELLOW, BLACK, (u8 *)LCD_FEU_Str,20,1);
+//	Show_Str(5, 30, WHITE, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+//	Show_Str(5, 50, WHITE, BLACK, (u8 *)LCD_RX1_Str,20,1);
+//	Show_Str(60, 50, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
+//	Show_Str(150, 50, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
+//	Show_Str(5, 70, WHITE, BLACK, (u8 *)LCD_Gain_Low_Str,20,1);
+//	Show_Str(150, 70, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
+//	Show_Str(5, 90, WHITE, BLACK, (u8 *)LCD_Atten_Str,20,1);
+//	LCD_DrawLine(0, 108, 239, 108, RED);
+//	Show_Str(5, 110, YELLOW, BLACK, (u8 *)LCD_IJU_Str,20,1);
+//	Show_Str(5, 130, WHITE, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+//	Show_Str(5, 150, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
+//	Show_Str(95, 150, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
+//	Show_Str(5, 170, WHITE, BLACK, (u8 *)LCD_Atten_Str,20,1);
+//	Show_Str(150, 170, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
+
+//	LL_CRC_ResetCRCCalculationUnit(CRC);
+//	LL_CRC_FeedData8(CRC, 0xCA); LL_CRC_FeedData8(CRC, 0x00);
+//	LL_CRC_FeedData8(CRC, 0x1F); LL_CRC_FeedData8(CRC, 0x4A); LL_CRC_FeedData8(CRC, 0x00);
+//	LL_CRC_FeedData8(CRC, 0x00); LL_CRC_FeedData8(CRC, 0x00); LL_CRC_FeedData8(CRC, 0x00);
+//	//CRC_Result = LL_CRC_ReadData16(CRC);
+//	sprintf(Str, "CRC = %0X", LL_CRC_ReadData16(CRC));
+//	Show_Str(5, 220, GBLUE, BLACK, (u8 *)Str,20,1);
+
+//	Power27V_Switch(1);
+//	osDelay(1000);
+//	Power27V_Switch(0);
 
 	for(;;)
 	{
+		LCD_Touch_Task_Done = 0;
+		//USBPD_DPM_Run();
+		//osDelay(1);
+		//Ali_USB();
 		if(TS_Touched() == 1)
 		{
 			getDisplayPoint(&display, Read_Value(), &matrix ) ;
+			//---------------PRSX Select---------------
+			X = 83;	Y = 140;
+			if( (LCD_Page == PRSX_Page) && (X<display.x && display.x<X+(strlen(LCD_PRS20_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+				LCD_Page = Modules_Page;
+				LCD_Clear(BLACK);
+				Show_Str(80, 100, WHITE, BLACK, (u8 *)LCD_FEU_Str,20,1);
+				Show_Str(80, 140, WHITE, BLACK, (u8 *)LCD_IJU_Str,20,1);
+				Show_Str(5, 300, GBLUE, BLACK, (u8 *)LCD_Back_Str,20,1);
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+//				for(;;)
+//				{
+//					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
+//					TX_Bytes_Count ++;
+//				}
+			}
+			//---------------Modules Select---------------
+			X = 80;	Y = 100;
+			if( (LCD_Page == Modules_Page) && (X<display.x && display.x<X+(strlen(LCD_FEU_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+				LCD_Page = FEU_Page;
+				//RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
+				LCD_Clear(BLACK);
+				Show_Str(5, 10, YELLOW, BLACK, (u8 *)LCD_FEU_Str,20,1);
+				Show_Str(5, 40, WHITE, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+				Show_Str(5, 70, WHITE, BLACK, (u8 *)LCD_RX1_Str,20,1);
+				Show_Str(60, 70, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
+				Show_Str(150, 70, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
+				Show_Str(5, 100, WHITE, BLACK, (u8 *)LCD_Gain_Low_Str,20,1);
+				Show_Str(150, 100, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
+				Show_Str(5, 130, WHITE, BLACK, (u8 *)LCD_Atten_Str,20,1);
+				Show_Str(5, 300, GBLUE, BLACK, (u8 *)LCD_Back_Str,20,1);
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+			}
+
+			X = 80;	Y = 140;
+			if( (LCD_Page == Modules_Page) && (X<display.x && display.x<X+(strlen(LCD_IJU_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+				LCD_Page = IJU_Page;
+				//RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
+				LCD_Clear(BLACK);
+				Show_Str(5, 10, YELLOW, BLACK, (u8 *)LCD_IJU_Str,20,1);
+				Show_Str(5, 40, WHITE, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+				Show_Str(5, 70, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
+				Show_Str(95, 70, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
+				Show_Str(5, 100, WHITE, BLACK, (u8 *)LCD_Atten_Str,20,1);
+				Show_Str(150, 100, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
+				Show_Str(5, 300, GBLUE, BLACK, (u8 *)LCD_Back_Str,20,1);
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+			}
+
+			X = 5;	Y = 300;
+			if( (LCD_Page == Modules_Page) && (X<display.x && display.x<X+(strlen(LCD_Back_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+				LCD_Page = PRSX_Page;
+				LCD_Clear(BLACK);
+				Show_Str(83, 100, WHITE, BLACK, (u8 *)LCD_PRS10_Str,20,1);
+				Show_Str(83, 140, WHITE, BLACK, (u8 *)LCD_PRS20_Str,20,1);
+				Show_Str(83, 180, WHITE, BLACK, (u8 *)LCD_PRS30_Str,20,1);
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+			}
+			//---------------FEU Power Supply---------------
+			X = 5;	Y = 40;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen(LCD_PowerSupply_ON_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+
+				if( Power27V_Status() == 0)
+				{
+					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_PowerSupply_ON_Str,20,1);
+					Power27V_Switch(1);
+				}
+				else
+				{
+					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_PowerSupply_ON_Str,20,1);
+					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+					Power27V_Switch(0);
+				}
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+			}
 			//---------------FEU RX---------------
-			X = 5;	Y = 30;
-			if( (X<display.x && display.x<X+(strlen(LCD_RX1_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 5;	Y = 70;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen(LCD_RX1_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 
 				if( (MIU_FEU_MSG.PCKT_0 & RX2_Bit0) == RX2_Bit0)
@@ -489,24 +643,24 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RX2_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RX1_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RX_Bit0_RST, RX1_Bit0);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RX1_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RX2_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RX_Bit0_RST, RX2_Bit0);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------FEU INJ---------------
-			X = 60;	Y = 30;
-			if( (X<display.x && display.x<X+(strlen(LCD_INJ_ON_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 60;	Y = 70;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen(LCD_INJ_ON_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 
 				if( (MIU_FEU_MSG.PCKT_0 & INJ_ON_Bit1) == INJ_ON_Bit1)
@@ -514,56 +668,56 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_INJ_ON_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, INJ_Bit1_RST, INJ_OFF_Bit1);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_INJ_ON_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, INJ_Bit1_RST, INJ_ON_Bit1);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------FEU RF---------------
-			X = 150;	Y = 30;
-			if( (X<display.x && display.x<X+(strlen(LCD_RF_16_22_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 150;	Y = 70;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen(LCD_RF_16_22_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 				if( (MIU_FEU_MSG.PCKT_0 & RF_42_63_Bit2_3) == RF_42_63_Bit2_3)
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_42_63_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RF_Bit2_3_RST, RF_16_22_Bit2_3);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else if( (MIU_FEU_MSG.PCKT_0 & RF_30_46_Bit2_3) == RF_30_46_Bit2_3)
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_30_46_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_42_63_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RF_Bit2_3_RST, RF_42_63_Bit2_3);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else if( (MIU_FEU_MSG.PCKT_0 & RF_20_32_Bit2_3) == RF_20_32_Bit2_3)
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_20_32_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_30_46_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RF_Bit2_3_RST, RF_30_46_Bit2_3);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else //RF_16_22_Bit2_3
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_20_32_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RF_Bit2_3_RST, RF_20_32_Bit2_3);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 
@@ -571,8 +725,8 @@ void LCD_Touch_Task(void *argument)
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------FEU Gain path---------------
-			X = 5;	Y = 50;
-			if( (X<display.x && display.x<X+(strlen(LCD_Gain_Low_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 5;	Y = 100;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen(LCD_Gain_Low_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 
 				if( (MIU_FEU_MSG.PCKT_0 & Gain_High_Bit4) == Gain_High_Bit4)
@@ -580,24 +734,24 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_Gain_High_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_Gain_Low_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, Gain_Bit4_RST, Gain_Low_Bit4);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_Gain_Low_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_Gain_High_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, Gain_Bit4_RST, Gain_High_Bit4);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------FEU RF Power---------------
-			X = 150;	Y = 50;
-			if( (X<display.x && display.x<X+(strlen(LCD_RX1_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 150;	Y = 100;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen(LCD_RX1_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 
 				if( (MIU_FEU_MSG.PCKT_0 & RF_ON_Bit5) == RF_ON_Bit5)
@@ -605,24 +759,24 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_ON_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RF_Bit5_RST, RF_OFF_Bit5);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_ON_Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_0, RF_Bit5_RST, RF_ON_Bit5);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------FEU Atten---------------
-			X = 5+(strlen("Atten: ")*8);	Y = 70;
-			if( (X<display.x && display.x<X+(strlen("-")*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 5+(strlen("Atten: ")*8);	Y = 130;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen("-")*8)) && (Y<display.y && display.y<Y+15) )
 			{
 				if(FEU_Atten_Bit0_5 > 0)
 				{
@@ -633,16 +787,16 @@ void LCD_Touch_Task(void *argument)
 					sprintf(Str, "%.1f", ((float)FEU_Atten_Bit0_5/2));
 					Show_Str(X+2, Y, WHITE, BLACK, (u8 *)Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_1, Atten_Bit0_5_RST, FEU_Atten_Bit0_5);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//----------
-			X = 5+(strlen("Atten: -     ")*8);	Y = 70;
-			if( (X<display.x && display.x<X+(strlen("+")*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 5+(strlen("Atten: -     ")*8);	Y = 130;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen("+")*8)) && (Y<display.y && display.y<Y+15) )
 			{
 				if(FEU_Atten_Bit0_5 < 63)
 				{
@@ -653,16 +807,50 @@ void LCD_Touch_Task(void *argument)
 					sprintf(Str, "%.1f", ((float)FEU_Atten_Bit0_5/2));
 					Show_Str(X+2, Y, WHITE, BLACK, (u8 *)Str,20,1);
 					Message_Maker(&MIU_FEU_MSG, &MIU_FEU_MSG.PCKT_1, Atten_Bit0_5_RST, FEU_Atten_Bit0_5);
-					RS485_Tx(1, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_FEU_MSG, MIU_FEU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
+				}
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+			}
+			//---------------FEU Back to Modules select---------------
+			X = 5;	Y = 300;
+			if( (LCD_Page == FEU_Page) && (X<display.x && display.x<X+(strlen(LCD_Back_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+				LCD_Page = Modules_Page;
+				LCD_Clear(BLACK);
+				Show_Str(80, 100, WHITE, BLACK, (u8 *)LCD_FEU_Str,20,1);
+				Show_Str(80, 140, WHITE, BLACK, (u8 *)LCD_IJU_Str,20,1);
+				Show_Str(5, 300, GBLUE, BLACK, (u8 *)LCD_Back_Str,20,1);
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+			}
+			//---------------IJU Power Supply---------------
+			X = 5;	Y = 40;
+			if( (LCD_Page == IJU_Page) && (X<display.x && display.x<X+(strlen(LCD_PowerSupply_ON_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+
+				if( Power27V_Status() == 0)
+				{
+					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_PowerSupply_ON_Str,20,1);
+					Power27V_Switch(1);
+				}
+				else
+				{
+					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_PowerSupply_ON_Str,20,1);
+					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_PowerSupply_OFF_Str,20,1);
+					Power27V_Switch(0);
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------IJU INJ---------------
-			X = 5;	Y = 110;
-			if( (X<display.x && display.x<X+(strlen(LCD_INJ_ON_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 5;	Y = 70;
+			if( (LCD_Page == IJU_Page) && (X<display.x && display.x<X+(strlen(LCD_INJ_ON_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 
 				if( (MIU_IJU_MSG.PCKT_0 & INJ_ON_Bit1) == INJ_ON_Bit1)
@@ -670,56 +858,56 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_INJ_ON_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, INJ_Bit1_RST, INJ_OFF_Bit1);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_INJ_OFF_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_INJ_ON_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, INJ_Bit1_RST, INJ_ON_Bit1);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------IJU RF---------------
-			X = 95;	Y = 110;
-			if( (X<display.x && display.x<X+(strlen(LCD_RF_16_22_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 95;	Y = 70;
+			if( (LCD_Page == IJU_Page) && (X<display.x && display.x<X+(strlen(LCD_RF_16_22_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 				if( (MIU_IJU_MSG.PCKT_0 & RF_42_63_Bit2_3) == RF_42_63_Bit2_3)
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_42_63_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit2_3_RST, RF_16_22_Bit2_3);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else if( (MIU_IJU_MSG.PCKT_0 & RF_30_46_Bit2_3) == RF_30_46_Bit2_3)
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_30_46_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_42_63_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit2_3_RST, RF_42_63_Bit2_3);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else if( (MIU_IJU_MSG.PCKT_0 & RF_20_32_Bit2_3) == RF_20_32_Bit2_3)
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_20_32_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_30_46_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit2_3_RST, RF_30_46_Bit2_3);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else //RF_16_22_Bit2_3
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_16_22_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_20_32_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit2_3_RST, RF_20_32_Bit2_3);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 
@@ -727,8 +915,8 @@ void LCD_Touch_Task(void *argument)
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------IJU Atten---------------
-			X = 5+(strlen("Atten: ")*8);	Y = 130;
-			if( (X<display.x && display.x<X+(strlen("-")*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 5+(strlen("Atten: ")*8);	Y = 100;
+			if( (LCD_Page == IJU_Page) && (X<display.x && display.x<X+(strlen("-")*8)) && (Y<display.y && display.y<Y+15) )
 			{
 				if(IJU_Atten_Bit0_5 > 0)
 				{
@@ -739,16 +927,16 @@ void LCD_Touch_Task(void *argument)
 					sprintf(Str, "%.1f", ((float)IJU_Atten_Bit0_5/2));
 					Show_Str(X+2, Y, WHITE, BLACK, (u8 *)Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_1, Atten_Bit0_5_RST, IJU_Atten_Bit0_5);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//----------
-			X = 5+(strlen("Atten: -     ")*8);	Y = 130;
-			if( (X<display.x && display.x<X+(strlen("+")*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 5+(strlen("Atten: -     ")*8);	Y = 100;
+			if( (LCD_Page == IJU_Page) && (X<display.x && display.x<X+(strlen("+")*8)) && (Y<display.y && display.y<Y+15) )
 			{
 				if(IJU_Atten_Bit0_5 < 63)
 				{
@@ -759,16 +947,16 @@ void LCD_Touch_Task(void *argument)
 					sprintf(Str, "%.1f", ((float)IJU_Atten_Bit0_5/2));
 					Show_Str(X+2, Y, WHITE, BLACK, (u8 *)Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_1, Atten_Bit0_5_RST, IJU_Atten_Bit0_5);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
 			}
 			//---------------IJU RF Power---------------
-			X = 150;	Y = 130;
-			if( (X<display.x && display.x<X+(strlen(LCD_RX1_Str)*8)) && (Y<display.y && display.y<Y+15) && (TS_Touched() == 1) )
+			X = 150;	Y = 100;
+			if( (LCD_Page == IJU_Page) && (X<display.x && display.x<X+(strlen(LCD_RX1_Str)*8)) && (Y<display.y && display.y<Y+15) )
 			{
 
 				if( (MIU_IJU_MSG.PCKT_0 & RF_ON_Bit5) == RF_ON_Bit5)
@@ -776,17 +964,30 @@ void LCD_Touch_Task(void *argument)
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_ON_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit5_RST, RF_OFF_Bit5);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
 				else
 				{
 					Show_Str(X, Y, BLACK, BLACK, (u8 *)LCD_RF_OFF_Str,20,1);
 					Show_Str(X, Y, WHITE, BLACK, (u8 *)LCD_RF_ON_Str,20,1);
 					Message_Maker(&MIU_IJU_MSG, &MIU_IJU_MSG.PCKT_0, RF_Bit5_RST, RF_ON_Bit5);
-					RS485_Tx(2, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
-					RS485_Tx(5, Sync_MSG, sizeof(Sync_MSG));
+					RS485_Tx(7, &MIU_IJU_MSG, MIU_IJU_MSG.Length);
+					RS485_Tx(5, &Sync_MSG, sizeof(Sync_MSG));
 				}
+
+				display.x=0; display.y=0;
+				while(TS_Touched() == 1)	{osDelay(10);}
+			}
+			//---------------IJU Back to Modules select---------------
+			X = 5;	Y = 300;
+			if( (LCD_Page == IJU_Page) && (X<display.x && display.x<X+(strlen(LCD_Back_Str)*8)) && (Y<display.y && display.y<Y+15) )
+			{
+				LCD_Page = Modules_Page;
+				LCD_Clear(BLACK);
+				Show_Str(80, 100, WHITE, BLACK, (u8 *)LCD_FEU_Str,20,1);
+				Show_Str(80, 140, WHITE, BLACK, (u8 *)LCD_IJU_Str,20,1);
+				Show_Str(5, 300, GBLUE, BLACK, (u8 *)LCD_Back_Str,20,1);
 
 				display.x=0; display.y=0;
 				while(TS_Touched() == 1)	{osDelay(10);}
@@ -796,6 +997,7 @@ void LCD_Touch_Task(void *argument)
 
 		}
 
+		LCD_Touch_Task_Done = 1;
 
 	}
 }

@@ -36,6 +36,7 @@ u8 Line5_Working = 0;
 u8 Line6_Working = 0;
 u8 Line7_Working = 0;
 
+uint32_t TX_Bytes_Count_3 = 0;
 //------------------------------------------------------------------------------
 void RS485_Init(void)
 {
@@ -421,7 +422,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 		{
 			if(Line1_Working == 1) {return;}
 			RS485_Set_Line_Driver_Receiver(1, Driver);
-			sprintf(Header, Header_MSG, "Line1 (RS485-1)", MSG_Length, CRC_MSG);
+			//sprintf(Header, Header_MSG, "Line1 (RS485-1)", MSG_Length, CRC_MSG);
 			//sprintf(Str, "Allllllllli");
 //			memset(Header, 0, 200);
 //			strcpy(Header, "SALAM AZ KHATE 1");
@@ -453,7 +454,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 		{
 			if(Line2_Working == 1) {return;}
 			RS485_Set_Line_Driver_Receiver(2, Driver);
-			sprintf(Header, Header_MSG, "Line2 (RS485-2)", MSG_Length, CRC_MSG);
+			//sprintf(Header, Header_MSG, "Line2 (RS485-2)", MSG_Length, CRC_MSG);
 			
 //			while(*Pointer != 0)
 //			{
@@ -482,7 +483,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 		{
 			if(Line3_Working == 1) {return;}
 			RS485_Set_Line_Driver_Receiver(3, Driver);
-			sprintf(Header, Header_MSG, "HV Line (RS485-3)", MSG_Length, CRC_MSG);
+			//sprintf(Header, Header_MSG, "HV Line (RS485-3)", MSG_Length, CRC_MSG);
 			
 //			while(*Pointer != 0)
 //			{
@@ -511,7 +512,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 		{
 			if(Line4_Working == 1) {return;}
 			RS485_Set_Line_Driver_Receiver(4, Driver);
-			sprintf(Header, Header_MSG, "Line4 (RS485-4)", MSG_Length, CRC_MSG);
+			//sprintf(Header, Header_MSG, "Line4 (RS485-4)", MSG_Length, CRC_MSG);
 
 //			while(*Pointer != 0)
 //			{
@@ -525,7 +526,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 			while(MSG_Length)
 			{
 				while(LL_USART_IsActiveFlag_TXE(Line4_UART) == RESET) {__NOP();}
-				LL_USART_TransmitData8(Line4_UART, 'D');//*MSG
+				LL_USART_TransmitData8(Line4_UART, *MSG);//'D'
 				while(LL_USART_IsActiveFlag_TC(Line4_UART) == RESET) {__NOP();}
 				LL_USART_ClearFlag_TC(Line4_UART);
 				MSG++;
@@ -540,7 +541,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 		{
 			if(Line5_Working == 1) {return;}
 			RS485_Set_Line_Driver_Receiver(5, Driver);
-			sprintf(Header, Header_MSG, "Line5 (RS485-5)", MSG_Length, CRC_MSG);
+			//sprintf(Header, Header_MSG, "Line5 (RS485-5)", MSG_Length, CRC_MSG);
 
 //			while(*Pointer != 0)
 //			{
@@ -554,12 +555,22 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 			while(MSG_Length)
 			{
 				while(LL_LPUART_IsActiveFlag_TXE(Line5_UART) == RESET) {__NOP();}
-				LL_LPUART_TransmitData8(Line5_UART, 'E');//*MSG
+				LL_LPUART_TransmitData8(Line5_UART, *MSG);//'E'
 				while(LL_LPUART_IsActiveFlag_TC(Line5_UART) == RESET) {__NOP();}
 				LL_LPUART_ClearFlag_TC(Line5_UART);
 				MSG++;
 				MSG_Length--;
 			}
+//			while(1)//while(MSG_Length)
+//			{
+//				while(LL_LPUART_IsActiveFlag_TXE(Line5_UART) == RESET) {__NOP();}
+//				LL_LPUART_TransmitData8(Line5_UART, *MSG);//'E'
+//				while(LL_LPUART_IsActiveFlag_TC(Line5_UART) == RESET) {__NOP();}
+//				LL_LPUART_ClearFlag_TC(Line5_UART);
+//				//MSG++;
+//				//MSG_Length--;
+//				TX_Bytes_Count_3 ++;
+//			}
 
 			while(LL_LPUART_IsActiveFlag_TXE(Line5_UART) == RESET) {__NOP();}
 			//delay_m(10);
@@ -569,7 +580,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 		{
 			if(Line6_Working == 1) {return;}
 			RS485_Set_Line_Driver_Receiver(6, Driver);
-			sprintf(Header, Header_MSG, "Line6 (RS485-6)", MSG_Length, CRC_MSG);
+			//sprintf(Header, Header_MSG, "Line6 (RS485-6)", MSG_Length, CRC_MSG);
 
 //			while(*Pointer != 0)
 //			{
@@ -598,7 +609,7 @@ void RS485_Tx(u8 Line, char *MSG, u16 MSG_Length)
 		{
 			if(Line7_Working == 1) {return;}
 			RS485_Set_Line_Driver_Receiver(7, Driver);
-			sprintf(Header, Header_MSG, "Line7 (RS485-7)", MSG_Length, CRC_MSG);
+			//sprintf(Header, Header_MSG, "Line7 (RS485-7)", MSG_Length, CRC_MSG);
 
 //			while(*Pointer != 0)
 //			{
