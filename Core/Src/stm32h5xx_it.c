@@ -314,6 +314,8 @@ void USB_DRD_FS_IRQHandler(void)
   /* USER CODE BEGIN USB_DRD_FS_IRQn 0 */
 
   /* USER CODE END USB_DRD_FS_IRQn 0 */
+//	LCD_Clear(RED);
+//	  Show_Str(83, 100, WHITE, BLACK, "USB Interrupt",20,1);
   HAL_PCD_IRQHandler(&hpcd_USB_DRD_FS);
   /* USER CODE BEGIN USB_DRD_FS_IRQn 1 */
 

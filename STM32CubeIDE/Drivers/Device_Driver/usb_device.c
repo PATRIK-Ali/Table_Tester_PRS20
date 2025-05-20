@@ -86,7 +86,8 @@ void MX_USB_Device_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USB_Device_Init_PostTreatment */
-
+  USBD_Start(&hUsbDeviceFS);
+  HAL_PCD_Start(&hpcd_USB_DRD_FS);
   /* USER CODE END USB_Device_Init_PostTreatment */
 }
 

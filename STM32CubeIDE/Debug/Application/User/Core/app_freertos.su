@@ -1,7 +1,0 @@
-../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_usart.h:3137:26:LL_USART_IsActiveFlag_BUSY	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:112:6:MX_FREERTOS_Init	8	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:161:6:StartDefaultTask	64	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:324:6:Lines_Sequence_Task	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:339:6:RX_Task	24	static,ignoring_inline_asm
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:483:6:LCD_Touch_Task	120	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Core/Src/app_freertos.c:1007:6:Callback01	16	static

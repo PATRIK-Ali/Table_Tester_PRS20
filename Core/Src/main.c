@@ -146,6 +146,8 @@ int main(void)
 
   //USBPD_HW_IF_GlobalHwInit();
   MX_USB_Device_Init();
+//  LCD_Clear(RED);
+//  Show_Str(83, 100, WHITE, BLACK, "USB first init",20,1);
   //MX_USBPD_Init();
 
   memset(General_Buffer, 0, sizeof(General_Buffer));

@@ -1,5 +1,0 @@
-../Drivers/Device_Driver/delay.c:151:6:delay_init	1
-../Drivers/Device_Driver/delay.c:215:6:delay_us	1
-../Drivers/Device_Driver/delay.c:237:6:delay_ms	1
-../Drivers/Device_Driver/delay.c:244:6:delay_m	3
-../Drivers/Device_Driver/delay.c:257:6:Delay_ms_OS	1

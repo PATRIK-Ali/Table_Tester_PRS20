@@ -1,9 +1,0 @@
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:219:11:USBD_CDC_DeviceDescriptor	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:232:11:USBD_CDC_LangIDStrDescriptor	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:245:11:USBD_CDC_ProductStrDescriptor	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:264:11:USBD_CDC_ManufacturerStrDescriptor	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:277:11:USBD_CDC_SerialStrDescriptor	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:299:11:USBD_CDC_ConfigStrDescriptor	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:318:11:USBD_CDC_InterfaceStrDescriptor	16	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:336:13:Get_SerialNum	24	static
-C:/Users/IRIAF-Jahad/Desktop/Table_Tester/Table_Tester_PRS20/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_desc.c:360:13:IntToUnicode	32	static

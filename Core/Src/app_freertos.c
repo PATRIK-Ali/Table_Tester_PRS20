@@ -533,6 +533,8 @@ void LCD_Touch_Task(void *argument)
 //	Power27V_Switch(1);
 //	osDelay(1000);
 //	Power27V_Switch(0);
+	osDelay(3000);
+	CDC_Transmit_FS("Hello\r\n", 7);
 
 	for(;;)
 	{

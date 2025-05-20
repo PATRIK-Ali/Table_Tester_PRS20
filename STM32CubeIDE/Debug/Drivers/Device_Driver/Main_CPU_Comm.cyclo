@@ -1,5 +1,0 @@
-../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_crc.h:156:22:LL_CRC_ResetCRCCalculationUnit	1
-../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_crc.h:351:22:LL_CRC_FeedData8	1
-../../Drivers/STM32H5xx_HAL_Driver/Inc/stm32h5xx_ll_crc.h:374:26:LL_CRC_ReadData16	1
-../Drivers/Device_Driver/Main_CPU_Comm.c:643:17:Message_Buffering	15
-../Drivers/Device_Driver/Main_CPU_Comm.c:861:19:Message_Parsing	5

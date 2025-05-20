@@ -122,8 +122,8 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
 /* UART handler declaration */
 
 /* TIM handler declaration */
-///////////////////////////////////extern TIM_HandleTypeDef htim6;
-///////////////////////////////////extern UART_HandleTypeDef huart3;
+///////////////////////////////////////////////////extern TIM_HandleTypeDef htim6;
+///////////////////////////////////////////////////extern UART_HandleTypeDef huart3;
 /* USB handler declaration */
 /* USER CODE END EXPORTED_VARIABLES */
 
@@ -171,15 +171,15 @@ USBD_CDC_ItfTypeDef USBD_Interface_fops_FS =
 static int8_t CDC_Init_FS(void)
 {
   /* USER CODE BEGIN 3 */
-	///////////////////////////////////MX_GPDMA1_Init();
-	///////////////////////////////////MX_USART3_UART_Init();
-	///////////////////////////////////if(HAL_UART_Receive_IT(&huart3, (uint8_t *)UserTxBufferFS, 1) != HAL_OK)
-	///////////////////////////////////{
-    /* Transfer error in reception process */
-	///////////////////////////////////Error_Handler();
-	///////////////////////////////////}
-
-	///////////////////////////////////TIM_Config();
+//  MX_GPDMA1_Init();
+//  MX_USART3_UART_Init();
+//  if(HAL_UART_Receive_IT(&huart3, (uint8_t *)UserTxBufferFS, 1) != HAL_OK)
+//  {
+//    /* Transfer error in reception process */
+//    Error_Handler();
+//  }
+//
+//  TIM_Config();
 
   USBD_CDC_SetTxBuffer(&hUsbDeviceFS, UserTxBufferFS, 0);
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, UserRxBufferFS);
@@ -196,11 +196,11 @@ static int8_t CDC_DeInit_FS(void)
 {
   /* USER CODE BEGIN 4 */
   /* DeInitialize the UART peripheral */
-	///////////////////////////////////if(HAL_UART_DeInit(&huart3) != HAL_OK)
-	///////////////////////////////////{
-    /* Initialization Error */
-	///////////////////////////////////Error_Handler();
-	///////////////////////////////////}
+//  if(HAL_UART_DeInit(&huart3) != HAL_OK)
+//  {
+//    /* Initialization Error */
+//    Error_Handler();
+//  }
   return (USBD_OK);
   /* USER CODE END 4 */
 }
@@ -292,7 +292,7 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-	///////////////////////////////////HAL_UART_Transmit_DMA(&huart3, Buf, *Len);
+	///////////////////////////////////////////////////HAL_UART_Transmit_DMA(&huart3, Buf, *Len);
   return (USBD_OK);
   /* USER CODE END 6 */
 }
@@ -366,7 +366,7 @@ static int8_t CDC_TransmitCplt_FS(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
   * @note   When a configuration is not supported, a default value is used.
   */
 static void ComPort_Config(void)
-{ return;
+{
 //  if(HAL_UART_DeInit(&huart3) != HAL_OK)
 //  {
 //    /* Initialization Error */
@@ -448,7 +448,7 @@ static void ComPort_Config(void)
   * @retval None.
   */
 void TIM_Config(void)
-{return;
+{
 //  MX_TIM6_Init();
 //  /* ## Start the TIM Base generation in interrupt mode #################### */
 //  /* Start Channel1 */
@@ -464,8 +464,8 @@ void TIM_Config(void)
   * @retval None
   */
 //void HAL_UART_ErrorCallback(UART_HandleTypeDef *hlpuart)
-//{return;
-  /* Transfer error occurred in reception and/or transmission process */
+//{
+//  /* Transfer error occurred in reception and/or transmission process */
 //  Error_Handler();
 //}
 
@@ -475,7 +475,7 @@ void TIM_Config(void)
   * @retval None
   */
 //void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-//{return;
+//{
 //  uint32_t buffptr;
 //  uint32_t buffsize;
 //
@@ -510,7 +510,7 @@ void TIM_Config(void)
   * @retval None
   */
 //void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-//{return;
+//{
 //  /* Increment Index for buffer writing */
 //  UserTxBufPtrIn++;
 //
@@ -523,38 +523,6 @@ void TIM_Config(void)
 //  /* Start another reception: provide the buffer pointer with offset and the buffer size */
 //  HAL_UART_Receive_IT(huart, (uint8_t *)(UserTxBufferFS + UserTxBufPtrIn), 1);
 //}
-
-void Ali_USB(void)
-{
-  uint32_t buffptr;
-  uint32_t buffsize;
-
-  if(UserTxBufPtrOut != UserTxBufPtrIn)
-  {
-    if(UserTxBufPtrOut > UserTxBufPtrIn) /* Rollback */
-    {
-      buffsize = APP_RX_DATA_SIZE - UserTxBufPtrOut;
-    }
-    else
-    {
-      buffsize = UserTxBufPtrIn - UserTxBufPtrOut;
-    }
-
-    buffptr = UserTxBufPtrOut;
-
-    USBD_CDC_SetTxBuffer(&hUsbDeviceFS, (uint8_t*)&UserTxBufferFS[buffptr], buffsize);
-
-    if(USBD_CDC_TransmitPacket(&hUsbDeviceFS) == USBD_OK)
-    {
-      UserTxBufPtrOut += buffsize;
-      if (UserTxBufPtrOut == APP_RX_DATA_SIZE)
-      {
-        UserTxBufPtrOut = 0;
-      }
-    }
-  }
-}
-
 /* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
 
 /**
